@@ -88,6 +88,7 @@ const CardSelect = (props) => {
 
     const [superSetKey, setSuperSetKey] = useState()
     const addSuperSet = (id) => {
+        console.log(id);
         setSuperSetKey(id)
     }
 

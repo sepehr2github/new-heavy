@@ -47,11 +47,9 @@ export default function ExampleCard({ Id,exercise_id , seperator, getReplace ,ge
     }
 
     const handleSuperSet = () => {
-        if (seperator == 1) {  dispatch(createSuperSet(Id))  }
-        if (seperator == 2) { dispatch(updatecreateSuperSet(Id)) }
-        getSuperSetRoutin(exercise_id )
-        getSuperSetId(Id)
+        dispatch(createSuperSet(Id))  
         getSuperSet(true)
+        getSuperSetId(Id)
     }
 
     return (
