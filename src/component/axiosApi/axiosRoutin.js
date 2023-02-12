@@ -8,6 +8,3 @@ instance.defaults.headers.common['Authorization'] = ` Bearer ${localStorage.getI
 
 export default instance
 
-// axios.defaults.headers.get['Authorization'] = `Bearer ${localStorage.getItem("token")}`,
-
-// axios.defaults.headers.post['Authorization'] = `Bearer ${localStorage.getItem("token")}`

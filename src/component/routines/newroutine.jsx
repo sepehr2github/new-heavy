@@ -1,8 +1,8 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useDispatch } from "react-redux";
 import Navbar from '../layout/navbar';
 import {
-    Button, Modal, Grid, Hidden, Typography, Box, Paper, 
+    Button, Grid, Typography, Paper,Hidden , Modal , Box
 } from '@mui/material';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import CardSelect from './cardSelect';
@@ -12,7 +12,7 @@ import '../../App.css';
 import Routines from "./routines";
 import MenuExercise from "./menuExercise";
 import routinApi from '../axiosApi/axiosRoutin'
-import { Navigate, Outlet} from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 // css
 const style = {
@@ -36,11 +36,6 @@ function Newroutin() {
     const setList = useSelector(state => state.routine.list)
     const dispatch = useDispatch()
 
-    // response mobile hiden button
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
 
 
     const first = useContext(list)
@@ -62,20 +57,28 @@ function Newroutin() {
     }
 
 
+
     useEffect(() => {
-        if (server == true  ) {
-            if(title){
-                routinApi.post(`/routine`  ,setList).then(res => console.log(res)).catch(err => console.log(err))
-                setSuccessfull(true)   
-            }else {
-                setServer(false) 
-                alert("لطفا یک نام وارد کنید")}
-        } 
+        if (server == true) {
+            if (title) {
+                routinApi.post(`/routine`, setList).then(res => console.log(res)).catch(err => console.log(err))
+                setSuccessfull(true)
+            } else {
+                setServer(false)
+                alert("لطفا یک نام وارد کنید")
+            }
+        }
     }, [server])
 
 
+    // response mobile hiden button
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+
     if (Successfull) {
-        return    <Navigate to='../routines' />
+        return <Navigate to='../routines' />
 
     }
 
@@ -103,23 +106,24 @@ function Newroutin() {
                                         </div>
                                     }
                                 </div>
-                                <div className="mt-5">
-                                    <Hidden mdUp >  <Button onClick={handleOpen} className="float-end h-10 button "
-                                    color="primary" variant="contained" ><Typography> اضافه کردن ورزش</Typography>
-                                    </Button>
-                                    </Hidden>
-                                </div>
-                                <Modal
-                                    open={open}
-                                    onClose={handleClose}
-                                    aria-labelledby="modal-modal-title"
-                                    aria-describedby="modal-modal-description"
-                                >
-                                    <Box sx={style} className='exercise-left'>
-                                        <MenuExercise separator={1} />
-                                    </Box>
-                                </Modal>
                             </Paper>
+                            <div className="mt-5">
+                                <Hidden mdUp >
+                                    <Button onClick={handleOpen} className="float-end h-10 button "
+                                        color="primary" variant="contained" ><Typography> اضافه کردن ورزش</Typography>
+                                    </Button>
+                                </Hidden>
+                            </div>
+                            <Modal
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                            >
+                                <Box sx={style} className='exercise-left'>
+                                    <MenuExercise separator={1} />
+                                </Box>
+                            </Modal>
                         </div>
                     </div>
                 </div>

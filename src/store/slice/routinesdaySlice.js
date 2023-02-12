@@ -4,6 +4,7 @@ const routinesdaySlice = createSlice({
     name: 'routinesday',
     initialState: {
         list: [],
+        super_set: ''
     },
     reducers: {
         remove: (state, { payload }) => {
@@ -11,9 +12,8 @@ const routinesdaySlice = createSlice({
         },
 
         setRoutes: (state, { payload }) => {
-            state.list=[payload]
+            state.list = payload
         },
-
 
         setDone: (state, { payload }) => {
             const { IdSet, IdEx, check } = payload
@@ -25,7 +25,7 @@ const routinesdaySlice = createSlice({
                         item.id == IdEx ?
                             {
                                 ...item,
-                                routine_sets: item.routine_sets.map((sets, index) => index == IdSet ? { ...sets, done: check ,numberDone: 1 } : sets)
+                                routine_sets: item.routine_sets.map((sets, index) => index == IdSet ? { ...sets, done: check, numberDone: 1 } : sets)
                             }
                             : item)
                 }
@@ -85,7 +85,7 @@ const routinesdaySlice = createSlice({
             state.list = state.list.map((items) => {
                 return {
                     ...items,
-                    routine_items: items.routine_items.map((item) =>
+                    routine_items: items?.routine_items.map((item) =>
                         item.id == Id ?
                             {
                                 ...item,
@@ -117,10 +117,8 @@ const routinesdaySlice = createSlice({
         },
 
         setUpdateInputNumber: (state, { payload }) => {
-            const { number, Id, IndexSet, SetId, Index_Id } = payload 
-            console.log('number, Id, IndexSet, SetId, Index_Id' + number, Id, IndexSet, SetId, Index_Id);
-           const newOject = state.list.map((it) => it.routine_items.map((ite) => ite.routine_sets.map((se)=>se.amount.map((am) => am[0]) )))
-           console.log(newOject)
+            const { number, Id, IndexSet, SetId, Index_Id } = payload
+            const newOject = state.list.map((it) => it.routine_items.map((ite) => ite.routine_sets.map((se) => se.amount.map((am) => am[0]))))
             state.list = state.list.map((items) => {
                 return {
                     ...items,
@@ -129,11 +127,11 @@ const routinesdaySlice = createSlice({
                             {
                                 ...item,
                                 routine_sets: item.routine_sets.map((sets, index) => sets.id == SetId ? {
-                                  ...sets,
-                                    amount: sets.amount.map((amounts) => amounts[0].index_id  == Index_Id ?
-                                       [ {  index_id: Index_Id ,amount: number} ]:[ {  index_id: amounts[0].index_id ,amount: amounts[0].amount} ]
+                                    ...sets,
+                                    amount: sets.amount.map((amounts) => amounts[0].index_id == Index_Id ?
+                                        [{ index_id: Index_Id, amount: number }] : [{ index_id: amounts[0].index_id, amount: amounts[0].amount }]
                                         // [(amounts[0] ? amounts[0] : amounts)]
-                                         ) 
+                                    )
                                 } : sets)
                             }
                             : item)
@@ -159,12 +157,59 @@ const routinesdaySlice = createSlice({
         },
 
 
+        setSuperSet: (state, { payload }) => {
+            state.super_set = payload
+
+        },
+
+        deleteSuperSetHistory: (state, { payload }) => {
+            const {id ,IndexSuper} = payload
+            state.list = state.list.map((items) => {
+                return {
+                    ...items,
+                    routine_items: items.routine_items.map((item) => 
+                    item.exercise_id == id ?
+                        {
+                            ...item,
+                             super_set : []    
+                         }
+                           : item    ) }
+                       },
+           state.super_set = state.super_set.filter((item , index) => index !== IndexSuper)
+            )  },
 
 
+            updatecreateSuperSet: (state, { payload }) => {
+
+                const {exercise_id , Id} = payload
+                console.log(exercise_id , Id)
+                state.list = state.list.map((items) => {
+                    return {
+                        ...items,
+                        routine_items: items.routine_items.map((item) => 
+                        item.id ==  Id?
+                            {
+                                ...item,
+                                 super_set : [item.exercise_id ,exercise_id ]    
+                             }
+                               : item    ) }
+                           },
+            //    state.super_set = state.super_set.filter((item , index) => index !== IndexSuper)
+                )  },
+
+        
 
     }
 })
 
-export const { remove, setRoutes, setDone, addSetUpdate, updateDeleteExercise, setUpdateNote, setUpdateRestTimer, deleteSet, updateAddExercise, setUpdateInputNumber } = routinesdaySlice.actions
+export const { remove, setRoutes, setDone, addSetUpdate,UpdateAddSuperSet, setSuperSet,updatecreateSuperSet, deleteSuperSetHistory, updateDeleteExercise, setUpdateNote, setUpdateRestTimer, deleteSet, updateAddExercise, setUpdateInputNumber } = routinesdaySlice.actions
 
 export default routinesdaySlice.reducer
+
+
+
+
+
+
+
+

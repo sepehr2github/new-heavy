@@ -1,4 +1,4 @@
-import react, { useState, forwardRef ,useEffect } from 'react'
+import react, { useState, forwardRef, useEffect } from 'react'
 import Checkbox from '@mui/material/Checkbox';
 import { done } from '../../store/slice/exerciseSlice';
 import { useDispatch } from 'react-redux';
@@ -23,9 +23,7 @@ const CheckBox = ({ IdSet, IdEx, amount }) => {
   }
 
   useEffect(() => {
-    dispatch(setDone({ IdSet, IdEx ,check}))
-
-
+    dispatch(setDone({ IdSet, IdEx, check }))
   }, [check])
 
 

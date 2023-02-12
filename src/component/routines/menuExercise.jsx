@@ -24,16 +24,18 @@ const MenuExercise = ({ separator }) => {
         getMuscles()
     }, [])
 
+   const token = localStorage.getItem("token")
+   
     function getExercise() {
-        routinApi.get(`/exercises`).then(res => setExercises(res.data.data)).catch(err => console.log(err))
+        routinApi.get(`/exercises`,token).then(res => setExercises(res.data.data)).catch(err => console.log(err))
     }
 
     function getEquipments() {
-        routinApi.get(`/equipments`).then(res => setEquipments(res.data.data)).catch(err => console.log(err))
+        routinApi.get(`/equipments`,token).then(res => setEquipments(res.data.data)).catch(err => console.log(err))
     }
 
     function getMuscles() {
-        routinApi.get(`/muscles`).then(res => setMuscles(res.data.data)).catch(err => console.log(err))
+        routinApi.get(`/muscles`,token).then(res => setMuscles(res.data.data)).catch(err => console.log(err))
     }
 
     // create exercise 

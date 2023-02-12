@@ -29,6 +29,7 @@ const routineSlice = createSlice({
                 note: item.note,
                 order: 1,
                 sets: item.sets,
+                super_set: item.super_set,
                 rest_timer: item.restTimer
               })
                    },

@@ -39,10 +39,11 @@ function Routines() {
 
     const { route } = useSWR(["http://188.121.121.255/api/v1/routine"], getRoutine)
 
+    console.log(route);
+
     const deleteRoutes =  (Id) => {
          routineApi.delete(`/routine/${Id}`);
          dispatch(deleteRouteRedux({Id}))
-        // setRefresh(true)
     }
 
     return (

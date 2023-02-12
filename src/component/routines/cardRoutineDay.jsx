@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, Outlet } from 'react-router-dom';
 
 import {
     Grid, Card, CardHeader, FormControl, Table, TableCell, TableContainer, TableHead, TableBody, TableRow, Paper,
@@ -16,23 +16,26 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 
-import { updateDeleteExercise, setRoutes, addSetUpdate, updateAddExercise } from '../../store/slice/routinesdaySlice';
+import Badge from '@mui/material/Badge';
+import { updateDeleteExercise, setRoutes, addSetUpdate, setSuperSet, deleteSuperSetHistory } from '../../store/slice/routinesdaySlice';
 import { createHistory, addTimer } from '../../store/slice/history'
-import { deleteSet } from '../../store/slice/routinesdaySlice'
+import { deleteSet ,updatecreateSuperSet } from '../../store/slice/routinesdaySlice'
 import CheckBox from './checkBox';
 import UrgeWithPleasureComponent from './progressBar'
 
 import InputAddRestTimer from './input/inputAddRestTimer';
 import InputAddNumberRoutinDay from './input/addNumberRoutinDay';
 import InputAddNote from './input/inputAddNote';
-import ExampleCard from './exampleCard';
+import ExamleRoutineCard from './examleRoutineCard';
 import routinApi from '../axiosApi/axiosRoutin'
+import Alert from './alert';
 import RestTimePage from './restTimePage'
 import MenuExercise from './menuExercise';
 import Fit2 from '../../img/fit2.jpg';
 import App from '../../App'
 import Routines from './routines';
 import TimerRoutin from './timerRoutin'
+import ListExercisesRoutin from './listExercisesRoutin';
 
 const style = {
     position: 'absolute',
@@ -47,23 +50,39 @@ const style = {
 };
 
 const CardRoutineDay = () => {
+
     const history = useSelector(state => state.historyRoutin.list)
     const list = useSelector(state => state.routinesday.list)
+    const super_set = useSelector(state => state.routinesday.super_set)
+
     const param = useParams()
     const dispatch = useDispatch()
     const [route, setRoute] = useState()
     const [successAPI, setSuccessAPI] = useState(true)
     const [start, setStart] = useState(null)
     const [Successfull, setSuccessfull] = useState(false)
+    const [newList, setNewList] = useState()
+    const [superSet, SetSuperSet] = useState([])
 
     useEffect(() => {
 
         if (successAPI == true) {
-            routinApi.get(`/routine/${param.id}`).then(result => {
-                dispatch(setRoutes(result.data.data));
-                setRoute(result.data.data)
-                setSuccessAPI(false)
+            const getRoutinApi = async () => {
+                await routinApi.get(`/routine/${param.id}`).then(result => {
+                    dispatch(setRoutes(result.data.data));
+                    dispatch(setSuperSet(result?.data?.super_set))
+                    setSuccessAPI(false)
+                }).catch(err => console.log(err))
+            }
+            getRoutinApi()
+        }
+    }, [])
 
+
+    useEffect(() => {
+        if (successAPI == true) {
+            routinApi.get(`/routine/history/show/${param.id}`).then(result => {
+                console.log(result)
             })
                 .catch(err => console.log(err))
         };
@@ -101,15 +120,11 @@ const CardRoutineDay = () => {
         list[0]?.routine_items.map((item) => item.routine_sets.map((sets, index) => setnumberSet(previousState => { return [...previousState, [index]] })))
 
         list[0]?.routine_items.map((item) => item.routine_sets.map((sets, index) => setNumberdone(prev => (sets.done == true ? prev + 1 : prev))))
-
     }
 
     useEffect(() => {
 
-        console.log('chekok');
-        console.log(numberSet.length, numberdone);
         if (numberSet.length == numberdone && numberdone !== 0) {
-            console.log('ok');
             setStart(false)
 
         } else if (numberSet.length !== numberdone && numberdone !== 0) {
@@ -129,10 +144,43 @@ const CardRoutineDay = () => {
         )
     }
 
+    const [openSuperSet, setOpenSuperSet] = useState(false)
+    const handleOpenSuperSet = () => setOpenSuperSet(true)
+    const handleCloseSuperSet = () => setOpenSuperSet(false)
+
+    const handleSuperSet = (superSet) => {
+        if (superSet) return (
+            handleOpenSuperSet()
+        )
+    }
+
+    const [superSetKey, setSuperSetKey] = useState()
+    const addSuperSet = (id) => {
+        console.log(id)
+        setSuperSetKey(id)
+    }
 
 
-    // if(Successfull==true){ return <Navigate to='../routines' />}
-    console.log(list);
+
+    useEffect(() => {
+
+        if (history.timer > 5) {
+            routinApi.post(`/routine/history`, history).then(res => setSuccessfull(true)).catch(err => console.log(err))
+        }
+
+    }, [history])
+
+
+    const handleDeleteSuperSetHistory = ({ id, IndexSuper }) => {
+        dispatch(deleteSuperSetHistory({ id, IndexSuper }))
+
+    }
+
+    const getSuperSetId = ( {exercise_id ,Id}) => {
+        updatecreateSuperSet({exercise_id ,Id})
+    }
+    if (Successfull) { return <Outlet /> }
+
     return (
         <div className='lg:container md:direction: rtl mx-auto ' >
             <div className='exercise-box  lg:flex sm:w-full  lg:mr-21 ' >
@@ -141,37 +189,49 @@ const CardRoutineDay = () => {
                 </div>
                 <div className="exercise-right max-md:w-full mb-5 lg:w-4/6 md:mr-4  md:ml-10 mt-6 ">
                     <>
-                        <div className='hidden md:flex'>
-                            <div className={`${start ? 'hidden' : 'flex'}`}   > <Button onClick={handleStartRoutin} variant="contained" color='success' className=' h-10  button float-left '> <Typography> شروع روتین </Typography></Button></div>
-                            <div className={`${start ? 'flex' : 'hidden'} `} > <Button onClick={handleEndRoutin} variant="contained" color='success' className=' h-10  button float-right '> <Typography> اتمام روتین </Typography></Button></div>
-                            <div className='mr-20'> <TimerRoutin start={start} /> </div>
-                        </div>
-
-
                         <>
+                            <div className='hidden md:flex'>
+                                <div className={`${start ? 'hidden' : 'flex'}`}   > <Button onClick={handleStartRoutin} variant="contained" color='success' className=' h-10  button float-left '> <Typography> شروع روتین </Typography></Button></div>
+                                <div className={`${start ? 'flex' : 'hidden'} `} > <Button onClick={handleEndRoutin} variant="contained" color='success' className=' h-10  button float-right '> <Typography> اتمام روتین </Typography></Button></div>
+                                <div className='mr-20'> <TimerRoutin start={start} /> </div>
+                            </div>
 
                             <div className=' md:hidden'>
-
-                                <div className={` mb-3 justify-center ${start ? 'hidden' : 'flex'}`}   > <Button onClick={handleStartRoutin} color='success' variant="contained"  className=' h-10  button '> <Typography className=' '> شروع روتین </Typography></Button></div>
+                                <div className={` mb-3 justify-center ${start ? 'hidden' : 'flex'}`}   > <Button onClick={handleStartRoutin} color='success' variant="contained" className=' h-10  button '> <Typography className=' '> شروع روتین </Typography></Button></div>
                                 <div className={`mb-3 justify-center ${start ? 'flex' : 'hidden'} `} > <Button onClick={handleEndRoutin} variant="contained" color='success' className=' h-10  button  '> <Typography> اتمام روتین </Typography></Button></div>
                                 <div className='flex'> <TimerRoutin start={start} /> </div>
-
                             </div>
+                        </>
+
+                        <>
 
                             {list[0]?.routine_items?.map((routes) =>
                                 <Card key={routes.id} sx={{ maxWidth: 700, marginTop: 5 }}  >
                                     <CardHeader className='mt-5'
-                                        avatar={
+
+                                        avatar={<>
+
                                             <Avatar aria-label="recipe">
-                                                <img className='imglist' src={Fit2} />
+                                                <img className='imglist' />
                                             </Avatar>
+                                        </>
                                         }
-                                        action={<ExampleCard Id={routes?.id} getReplace={(replace) => handleReplace(replace)} seperator={2} />}
-                                        title={<h1 className='title-card '>{routes?.exercise.fa_title}</h1>}
+
+                                        action={<ExamleRoutineCard Id={routes?.id} exercise_id={routes.exercise_id} getSuperSet={(superSet) => handleSuperSet(superSet)} getReplace={(replace) => handleReplace(replace)} getSuperSetRoutin={(id) => addSuperSet(id)} seperator={2} />}
+                                        title={
+                                            <>
+                                                {super_set?.map((item, index) => item.map((setId, ind) => setId.id == routes.exercise_id ?
+                                                    <div className="super_set"><button onDoubleClick={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}> <Typography> {index + 1}</Typography></button> </div> : '')
+                                                )}
+
+
+                                                <h1 className='title-card '>{routes?.exercise.fa_title}</h1>
+                                            </>
+                                        }
                                     />
                                     <CardContent className='mb-0'>
                                         <Typography variant="body2" color="text.secondary">
-                                            <InputAddNote Id={routes.id} amount={routes.note} />
+                                            <InputAddNote Id={routes.id} amount={routes?.note} />
                                         </Typography>
                                     </CardContent>
                                     <div className='restTimer mt-0' xs={12}>
@@ -186,13 +246,13 @@ const CardRoutineDay = () => {
                                                 <TableRow className='' >
                                                     <TableCell className='' align="right" ><CheckIcon className='mr-2' /></TableCell>
                                                     <TableCell className='' align="right"><Typography>ست</Typography></TableCell>
-                                                    {routes.exercise?.type.indices?.map((type) => <TableCell className='' key={type.id} align="center"><Typography>{type.title}</Typography></TableCell>)}
+                                                    {routes.exercise?.type.indices?.map((type, ind) => <TableCell className='' key={ind} align="center"><Typography>{type.title}</Typography></TableCell>)}
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody  >
                                                 {routes?.routine_sets?.map((sets, indexSet) =>
                                                     <>
-                                                        <TableRow key={indexSet} className={`${sets.done == true ? 'row-done' : ''} `} >
+                                                        <TableRow key={indexSet} className={`${sets?.done == true ? 'row-done' : ''} `} >
                                                             <TableCell className='bg-emerald-50  w-4 md:w-10' align="right"> {start == true ? <CheckBox className='mr-2' IdSet={indexSet} IdEx={routes.id} amount={routes?.rest_timer} /> : ''} </TableCell>
                                                             <TableCell className='bg-emerald-50 w-4 md:w-10' align="right" > {indexSet + 1}</TableCell>
                                                             {/* <TableCell align="center" > -</TableCell> */}
@@ -219,17 +279,26 @@ const CardRoutineDay = () => {
                                         <Button sx={{ width: '100%' }} onClick={() => handleAddSet(routes.id)}
                                             size={'large'} variant="contained" className='float-end mt-5  h-10  button'>  <Typography className=''> اضافه کردن ست</Typography> </Button>
                                     </Grid>
+                                    <Modal
+                                        open={openSuperSet}
+                                        onClose={handleCloseSuperSet}
+                                        aria-labelledby="modal-modal-title"
+                                        aria-describedby="modal-modal-description"
+                                    >
+                                        <Box sx={style} className='exercise-left'>
+                                            <ListExercisesRoutin exercise_id_superSet={(exercise_id) => getSuperSetId({exercise_id: exercise_id , Id : routes.id})} />
+                                        </Box>
+                                    </Modal>
                                 </Card>
                             )
                             }
+
                             <div className='mt-3'>
                                 <Hidden lgUp>
-
                                     <Button onClick={handleOpenModal} className="float-end mt-5  h-10  button" color="primary" variant="contained"> <Typography> اضافه کردن ورزش </Typography></Button>
-
                                 </Hidden>
-
                             </div>
+
                         </>
 
                         <Modal

@@ -38,7 +38,7 @@ const TimerRoutin = ({ start  }) => {
     }
 
     return (
-        <div className="app">
+        <div className="Stopwatch">
             <h3>زمان شروع روتین </h3>
             <div className='stopwatch-card'>
                 <p>{formatTime()}</p>

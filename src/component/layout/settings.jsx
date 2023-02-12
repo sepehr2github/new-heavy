@@ -4,7 +4,6 @@ import Navbar from './navbar'
 import { Label } from "@mui/icons-material";
 import { FormControl, Input, InputLabel } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material';
-// import PersonOutlinedIcon from '@mui/icons-material/personOutLined'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 const Settings = () => {

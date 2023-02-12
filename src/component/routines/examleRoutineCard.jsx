@@ -1,17 +1,10 @@
 import React, { useState } from 'react'
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import App from '../../App'
-import Routines from './routines'
-import { deleteExercise ,createSuperSet} from '../../store/slice/exerciseSlice'
 import { updateDeleteExercise, addReplace , updatecreateSuperSet} from '../../store/slice/routinesdaySlice'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Typography, Modal, Box } from '@mui/material'
-import MenuExercise from './menuExercise'
+import { Typography} from '@mui/material'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -31,26 +24,19 @@ const style = {
     p: 4,
 };
 
-export default function ExampleCard({ Id,exercise_id , seperator, getReplace ,getSuperSet,getSuperSetRoutin,getSuperSetId }) {
+export default function ExamleRoutineCard({ Id ,  getReplace ,getSuperSet,getSuperSetRoutin }) {
     const dispatch = useDispatch()
-    // const [replace , setReplace] = useState(false)
 
     const handleDelete = () => {
-        if (seperator == 1) { dispatch(deleteExercise(Id)) }
-        if (seperator == 2) { dispatch(updateDeleteExercise(Id)) }
+     dispatch(updateDeleteExercise(Id)) 
     }
 
     const handleReplace = () => {
         getReplace(true)
-        if (seperator == 1) { dispatch(deleteExercise(Id)) }
-        if (seperator == 2) { dispatch(updateDeleteExercise(Id)) }
+     dispatch(updateDeleteExercise(Id)) 
     }
 
     const handleSuperSet = () => {
-        if (seperator == 1) {  dispatch(createSuperSet(Id))  }
-        if (seperator == 2) { dispatch(updatecreateSuperSet(Id)) }
-        getSuperSetRoutin(exercise_id )
-        getSuperSetId(Id)
         getSuperSet(true)
     }
 

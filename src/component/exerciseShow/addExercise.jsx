@@ -2,17 +2,15 @@ import React, { useState, useEffect } from 'react'
 import {
     Paper, Box, Hidden, Button, Modal, Typography, ListItemAvatar, Stack, TextField, Avatar,
     ListItemText, List, ListItem, MenuItem, InputLabel, FormControl, Select, OutlinedInput
-
 } from '@mui/material';
-
 import { useDropzone } from 'react-dropzone';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import Checkbox from '@mui/material/Checkbox';
 import { useDispatch } from 'react-redux';
-import Routines from '../routines/routines'
-import routinApi from '../axiosApi/axiosRoutin'
-import App from '../../App'
 import { Navigate } from 'react-router-dom';
+
+import routinApi from '../axiosApi/axiosRoutin'
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -57,25 +55,22 @@ const AddExercise = () => {
     }, [])
 
     async function getTypes() {
-
         routinApi.get(`/types`).then(result=> {
             setTypes(result.data.data)
         }).catch(err => console.log(err))
     }
 
-
-
     async function getEquipments() {
         routinApi.get(`/equipments`).then(result=> {
             setEquipments(result.data.data).catch(err => console.log(err))
 
-        })    }
+        })}
 
     async function getMuscles() {
         routinApi.get(`/muscles`).then(result => {
             setMuscles(result.data.data).catch(err => console.log(err))
+        })}
 
-        })    }
 
     const [exercise, setExercise] = useState({
         'en_title': '',
@@ -112,20 +107,15 @@ const AddExercise = () => {
     }
 
 
-
      function handleSubmit() {
-
-        let item = { exercise }
         routinApi.post(`/exercises`,exercise).then(result=> console.log(result)).catch(err => console.log(err))
          setSuccessfull(true)
-
     }
 
 
 
     if (Successfull) {
         return    <Navigate to='../routines' />
-
     }
 
     return (

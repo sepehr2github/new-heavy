@@ -9,8 +9,9 @@ import Newroutin from "./component/routines/newroutine";
 import Exercise from "./component/exerciseShow/exercise";
 import Login from "./component/authentication/login";
 import Logout from "./component/authentication/logout";
+
+import Register from "./component/authentication/register";
 import Settings from "./component/layout/settings";
-import Check from "./component/authentication/checkNumber";
 // import { FontAwesomeIcon } from '@fortawesome/free-solid-svg-icons'
 
 import { store } from './store'
@@ -28,13 +29,14 @@ root.render(
     <Provider store={store}>
       <BrowserRouter >
         <Routes>
+        <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
           <Route path="logout" element={<Logout />} />
+
           <Route element={<PrivateRoutes />}>
 
             <Route path="/" element={<App />} />
             <Route path="*" element={<p>There's nothing here: 404!</p>} />
-            <Route path="check" element={<Check />} />
             <Route path="settings" element={<Settings />} />
             <Route path="routines" element={<Suspense fallback={<h3>loading ....</h3>}><Routines /></Suspense>} />
             <Route path="exercise" element={<Exercise />} />

@@ -30,6 +30,7 @@ const exerciseSlice = createSlice({
                         keywords: chosen.keywords,
                         type: chosen.type.indices,
                         restTimer: '',
+                        super_set:[],
                         sets: []
                         // {index_id:'' , amount:'' } 
                     }
@@ -104,6 +105,32 @@ const exerciseSlice = createSlice({
                 }
                 : item 
             })
+        },
+
+        createSuperSet:(state,{payload}) =>{
+
+            state.list = state.list.map((item)=> {
+                return item.key == payload
+                ?{
+                    ...item,
+                    super_set: [item.id]
+                }
+                :item
+            })
+        },
+
+
+        addSuperSet: (state,{payload}) => {
+            console.log(payload)
+          const {id, SuperSetKey} =payload
+            state.list = state.list.map((item)=> {
+                return item.key == SuperSetKey
+                ?{
+                    ...item,
+                    super_set: [...item.super_set , id]
+                }
+                :item
+            })
         }
 
 
@@ -113,6 +140,6 @@ const exerciseSlice = createSlice({
 )
 
 
-export const {Remove, setExercise, deleteExercise, addSet, setInputNumber, addNote ,addTitle ,addRestTimer ,deleteSet} = exerciseSlice.actions
+export const {Remove, setExercise,createSuperSet, addSuperSet,deleteExercise, addSet, setInputNumber, addNote ,addTitle ,addRestTimer ,deleteSet} = exerciseSlice.actions
 
 export default exerciseSlice.reducer
