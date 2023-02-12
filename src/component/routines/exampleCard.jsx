@@ -31,7 +31,7 @@ const style = {
     p: 4,
 };
 
-export default function ExampleCard({ Id,exercise_id , seperator, getReplace ,getSuperSet,getSuperSetRoutin,getSuperSetId }) {
+export default function ExampleCard({ Id , seperator, getReplace ,getSuperSet,getSuperSetId }) {
     const dispatch = useDispatch()
     // const [replace , setReplace] = useState(false)
 

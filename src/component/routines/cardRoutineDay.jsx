@@ -176,9 +176,7 @@ const CardRoutineDay = () => {
 
     }
 
-    const getSuperSetId = ( {exercise_id ,Id}) => {
-        updatecreateSuperSet({exercise_id ,Id})
-    }
+
     if (Successfull) { return <Outlet /> }
 
     return (
@@ -217,10 +215,10 @@ const CardRoutineDay = () => {
                                         </>
                                         }
 
-                                        action={<ExamleRoutineCard Id={routes?.id} exercise_id={routes.exercise_id} getSuperSet={(superSet) => handleSuperSet(superSet)} getReplace={(replace) => handleReplace(replace)} getSuperSetRoutin={(id) => addSuperSet(id)} seperator={2} />}
+                                        action={<ExamleRoutineCard Id={routes?.id} exercise_id={routes.exercise_id} getSuperSet={(superSet) => handleSuperSet(superSet)} getSuperSetRoutin={(id) => addSuperSet(id)} getReplace={(replace) => handleReplace(replace)}  seperator={2} />}
                                         title={
                                             <>
-                                                {super_set?.map((item, index) => item.map((setId, ind) => setId.id == routes.exercise_id ?
+                                                {super_set?.map((item, index) => item?.map((setId, ind) => setId?.id == routes?.exercise_id ?
                                                     <div className="super_set"><button onDoubleClick={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}> <Typography> {index + 1}</Typography></button> </div> : '')
                                                 )}
 
@@ -286,7 +284,7 @@ const CardRoutineDay = () => {
                                         aria-describedby="modal-modal-description"
                                     >
                                         <Box sx={style} className='exercise-left'>
-                                            <ListExercisesRoutin exercise_id_superSet={(exercise_id) => getSuperSetId({exercise_id: exercise_id , Id : routes.id})} />
+                                            <ListExercisesRoutin SuperSetKey={superSetKey} />
                                         </Box>
                                     </Modal>
                                 </Card>

@@ -1,20 +1,18 @@
 import React from "react"
 import { List, ListItem, ListItemAvatar, ListItemText, Typography, Avatar, Box, Paper, InputBase, IconButton, Modal, Button } from '@mui/material'
 import { useDispatch, useSelector } from "react-redux"
-import { addSuperSet } from "../../store/slice/exerciseSlice"
-import { UpdateAddSuperSet } from "../../store/slice/routinesdaySlice"
+import { updateAddSuperSet } from "../../store/slice/routinesdaySlice"
 
-const ListExercisesRoutin = ({ exercise_id_superSet }) => {
+const ListExercisesRoutin = ({SuperSetKey}) => {
 
     const list = useSelector(state => state.routinesday.list)
     const dispatch = useDispatch()
 
 
 
-    const handleList = (exercise_id ) => {
-        console.log(exercise_id);
-        exercise_id_superSet(exercise_id)
-    
+    const handleList = (id ) => {
+        console.log(id, SuperSetKey );
+        dispatch(updateAddSuperSet({ id, SuperSetKey })) 
     }
 
     return (

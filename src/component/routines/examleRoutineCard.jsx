@@ -37,7 +37,9 @@ export default function ExamleRoutineCard({ Id ,  getReplace ,getSuperSet,getSup
     }
 
     const handleSuperSet = () => {
+        dispatch(updatecreateSuperSet(Id))  
         getSuperSet(true)
+        getSuperSetRoutin(Id)
     }
 
     return (

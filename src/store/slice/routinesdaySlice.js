@@ -179,30 +179,55 @@ const routinesdaySlice = createSlice({
             )  },
 
 
-            updatecreateSuperSet: (state, { payload }) => {
 
-                const {exercise_id , Id} = payload
-                console.log(exercise_id , Id)
+            updatecreateSuperSet:(state,{payload}) =>{
+               
                 state.list = state.list.map((items) => {
                     return {
                         ...items,
                         routine_items: items.routine_items.map((item) => 
-                        item.id ==  Id?
+                        item.id ==  payload?
                             {
                                 ...item,
-                                 super_set : [item.exercise_id ,exercise_id ]    
+                                 super_set : [item.exercise_id ]    
                              }
                                : item    ) }
-                           },
-            //    state.super_set = state.super_set.filter((item , index) => index !== IndexSuper)
-                )  },
+                           }, )
+
+                        //    state.list.map((item) => item.routine_items.map((items)=> items.id == payload? state.super_set.push([{key : payload , id :items.exercise_id  }]) : '') )
+
+            },
+
+            updateAddSuperSet: (state, { payload }) => {
+
+                const {id, SuperSetKey } = payload
+                console.log(id, SuperSetKey )
+                state.list = state.list.map((items) => {
+                    return {
+                        ...items,
+                        routine_items: items.routine_items.map((item) => 
+                        item.id ==  SuperSetKey?
+                            {
+                                ...item,
+                                 super_set : [item.exercise_id ,id ]    
+                             }
+                               : item    ) }
+                               
+
+
+                           }, );
+
+                           state.list.map((item) => item.routine_items.map((items)=> items.id == SuperSetKey ? state.super_set.push([{key : SuperSetKey , id :id  } ,{key : SuperSetKey , id :items.exercise_id  }]) : '') )
+
+                 
+            },
 
         
 
     }
 })
 
-export const { remove, setRoutes, setDone, addSetUpdate,UpdateAddSuperSet, setSuperSet,updatecreateSuperSet, deleteSuperSetHistory, updateDeleteExercise, setUpdateNote, setUpdateRestTimer, deleteSet, updateAddExercise, setUpdateInputNumber } = routinesdaySlice.actions
+export const { remove, setRoutes, setDone, addSetUpdate,updateAddSuperSet, setSuperSet,updatecreateSuperSet, deleteSuperSetHistory, updateDeleteExercise, setUpdateNote, setUpdateRestTimer, deleteSet, updateAddExercise, setUpdateInputNumber } = routinesdaySlice.actions
 
 export default routinesdaySlice.reducer
 

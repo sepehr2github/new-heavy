@@ -14,7 +14,6 @@ const ListSelectedExercise = ({ SuperSetKey, seperator }) => {
 
     const handleList = (id) => {
          dispatch(addSuperSet({ id, SuperSetKey })) 
-        if (seperator == 2) { dispatch(UpdateAddSuperSet({ id })) }
     }
 
 
