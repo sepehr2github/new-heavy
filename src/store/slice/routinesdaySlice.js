@@ -4,7 +4,7 @@ const routinesdaySlice = createSlice({
     name: 'routinesday',
     initialState: {
         list: [],
-        super_set: ''
+        super_set: []
     },
     reducers: {
         remove: (state, { payload }) => {

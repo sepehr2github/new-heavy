@@ -16,7 +16,7 @@ console.log(list);
   return (
 
     <div>
-      < div className='my-4 flex' >
+      < div className='  flex' >
         <> 
           {/* {?.type == 'img' ? */}
             {/* <img className='border-2 py-10 rounded-lg w-5/5' alt="Travis Howard" src={'option.avatar'} /> */}

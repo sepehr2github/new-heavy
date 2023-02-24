@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { List, ListItem, ListItemAvatar, ListItemText, Typography, Avatar, Box, Paper, InputBase, IconButton, Modal, Button } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import { useDispatch } from 'react-redux';
+import AddNewExercise from '../exerciseShow/addNewExercise'
 import AddExercise from '../exerciseShow/addExercise'
+
 import { setExercise } from '../../store/slice/exerciseSlice'
 import { updateAddExercise } from '../../store/slice/routinesdaySlice'
 import { exerciseShow } from '../../store/slice/exerciseShow'
 import fit2 from '../../img/fit2.jpg'
 import routinApi from '../axiosApi/axiosRoutin'
+import axios from 'axios';
 
 const MenuExercise = ({ separator }) => {
 
@@ -36,8 +39,7 @@ const MenuExercise = ({ separator }) => {
 
     function getMuscles() {
         routinApi.get(`/muscles`,token).then(res => setMuscles(res.data.data)).catch(err => console.log(err))
-    }
-
+    }   
     // create exercise 
 
     const [openCreateList, setOpenCreateList] = useState(false)

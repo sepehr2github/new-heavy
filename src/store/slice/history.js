@@ -20,7 +20,6 @@ const historyRoutinSlice = createSlice({
                         rest_timer:exercise.rest_timer,
                         super_set: exercise.super_set    ,
                         sets:exercise?.routine_sets.map((set) => set.amount.map((sets) => sets[0]))
-
                     }
                 }
 

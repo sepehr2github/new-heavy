@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../layout/navbar';
 import '../../App.css';
 import '../../index.css';
-import { Paper, Box ,Hidden , Button , Typography ,Modal} from '@mui/material';
+import { Paper, Box, Hidden, Button, Typography, Modal,Grid } from '@mui/material';
 import CardExercise from './cardExercise';
 import LabelBottomNavigation from '../layout/buttomNavigation';
 import MenuExercise from '../routines/menuExercise';
+import { useSelector } from 'react-redux';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 
-const Exercise = ()=> {
+const Exercise = () => {
+
+    const list = useSelector(state => state.exerciseShow.list)
 
     const [openList, setOpenList] = React.useState(false);
     const handleOpenList = () => setOpenList(true);
@@ -24,7 +28,10 @@ const Exercise = ()=> {
         boxShadow: 24,
         p: 4,
     };
-
+    // response mobile hiden button
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
 
     return (
@@ -32,47 +39,48 @@ const Exercise = ()=> {
         <div className='newRoutin-style  md:direction: rtl' >
             <Navbar />
 
-            <div>
-                <div className='exercise-box md:flex lg:flex sm:w-full lg:mr-21 '>
-                    <div className='exercise-left hidden  max-md:w-full mb-5  lg:ml-7 md:inline'>
-                        <Box  sx={{ '& .MuiTextField-root': { margin: '4px 0', width: '100%' }, }} noValidate autoComplete="off">
-                        <MenuExercise separator={3} />
-
-                        </Box >
+            <div className='lg:container mx-auto'>
+                <div className='exercise-box md:pt-5 md:px-8 md:flex lg:flex sm:w-full lg:mr-21 ' >
+                    <div className='exercise-left hidden  max-md:w-full mb-5  lg:ml-7 md:inline '>
+                        <MenuExercise separator={1} />
                     </div>
-                    <div className="exercise-right max-md:w-full mb-5 md:w-4/6 md:ml-14 mt-8 md:mr-7">
-                        <Paper elevation={2}  >
-                            <div className=" md:cardMD">
-                            <CardExercise />
-                                {/*list.length > 0 ?
-                                 <CardExercise /> :
-                                    <div className='emptyRight '>
-                                        <FitnessCenterIcon color="primary" className="fitnessIcon" sx={{ fontSize: 80 }} />
-                                        <Typography> لطفا یک ورزش انتخاب کنید</Typography>
-                                    </div>
-                                         */  }
+                    <div className="exercise-right max-md:w-full mb-5 w-full md:w-4/6 md:ml-14 mt-8 md:mr-1">
+                        <div className="mt-1">
+                            <Grid item xs={3} md={3}>
+                             
+                             
+                            </Grid>
+                            <Paper elevation={3} className="mt-4   ">
+                                <div className="w-full ">
+                                    {list.length > 0 ? <CardExercise /> :
+                                        <div className='emptyRight '>
+                                            <FitnessCenterIcon color="primary" className="fitnessIcon" sx={{ fontSize: 80 }} />
+                                            <Typography> لطفا یک ورزش انتخاب کنید</Typography>
+                                        </div>
+                                    }
+                                </div>
+                            </Paper>
+                            <div className="mt-5">
+                                <Hidden mdUp >
+                                    <Button onClick={handleOpen} className="float-end h-10 button "
+                                        color="primary" variant="contained" ><Typography> اضافه کردن ورزش</Typography>
+                                    </Button>
+                                </Hidden>
                             </div>
-                           <Hidden mdUp>
-                                <Button onClick={handleOpenList} className="float-end h-10 button mr-7  "
-                                    color="primary" variant="contained" ><Typography> انتخاب کردن ورزش</Typography>
-                                </Button>
-                            </Hidden>
                             <Modal
-                                open={openList}
-                                onClose={handleCloseList}
+                                open={open}
+                                onClose={handleClose}
                                 aria-labelledby="modal-modal-title"
                                 aria-describedby="modal-modal-description"
                             >
                                 <Box sx={style} className='exercise-left'>
-                                    <MenuExercise separator={3} />
+                                    <MenuExercise separator={1} />
                                 </Box>
-                            </Modal> 
-                            {/* +<Box component="button" sx={{ display: { xl: 'none', xs: 'block' } }} /> */}
-                        </Paper>
+                            </Modal>
+                        </div>
                     </div>
                 </div>
-            </div >
-            <LabelBottomNavigation />
+            </div>
         </div >
     );
 }

@@ -31,6 +31,7 @@ const updateRoutineSlice = createSlice({
                 order: 1,
                 rest_timer: item.rest_timer,
                 sets: item.routine_sets.map((set) => set.amount),
+                super_set:item.super_set
 
             }) )
                                                                   

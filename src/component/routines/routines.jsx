@@ -49,7 +49,7 @@ function Routines() {
     return (
         <div className='routin-style' >
             <Navbar />
-            <div className='hidden sm:block md:min-h-[43rem] mb-10'>
+            <div className='hidden sm:block md:min-h-[35rem] mb-10'>
                 <div className='routin-box md:flex mt-14'>
                     <div className=' max-md:w-full  mb-5 md:ml-3 lg:mr-8 lg:w-1/5 '>
                         <Button className='m-2 ' variant="outlined" startIcon={<ContentPasteIcon />}>

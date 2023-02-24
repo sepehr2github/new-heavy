@@ -1,12 +1,13 @@
 import React from "react";
-import { Field, Form, Formik } from 'formik'
+import { Field, Form, Formik, ErrorMessage } from 'formik'
 import routinApi from '../axiosApi/axiosRoutin'
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
+import * as yup from "yup"
+
 function Register() {
 
-    const [Successfull , setSuccessfull] = useState(false)
-
+    const [Successfull, setSuccessfull] = useState(false)
     const initialValues = {
         name: '',
         mobile: '',
@@ -14,10 +15,16 @@ function Register() {
         gender: ''
     }
 
+    const registerFormValidationSchema = yup.object().shape({
+        name: yup.string(),
+        mobile: yup.string(),
+        password: yup.string().min(7,  'نباید کمتر از 7 کاراکتر باشد'),
+        // gender: yup.required("یک گزینه را انتخاب کنید")
+    })
 
     const handleSubmit = (value) => {
-        routinApi.post(`/register`, value).then(res => setSuccessfull(true)).catch(err => console.log(err))
-        
+        console.log(value);
+        routinApi.post(`/register`, value).then(res => setSuccessfull(true)).catch(err => alert(err.response.data.message))
     }
     if (Successfull) { return <Navigate to='./login' /> }
 
@@ -35,6 +42,7 @@ function Register() {
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                         <Formik
+                            validationSchema={registerFormValidationSchema}
                             initialValues={initialValues}
                             onSubmit={(value) => handleSubmit(value)} >
                             <Form className="space-y-6">
@@ -45,14 +53,17 @@ function Register() {
                                     <div className="mt-1">
                                         <Field id="name" name="name" type="text" autoComplete="name" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                     </div>
+                                    <ErrorMessage name="name" component="div" className="invalid-feedback text-red-100" />
+
                                 </div>
                                 <div>
-                                    <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">
-                                        phone address
+                                    <label htmlFor="Name" className="block text-sm font-medium text-gray-700">
+                                        phone
                                     </label>
                                     <div className="mt-1">
                                         <Field id="mobile" name="mobile" type="number" autoComplete="mobile" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                     </div>
+                                    <ErrorMessage name="mobile" component="div" className="invalid-feedback" />
                                 </div>
                                 <div>
                                     <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -61,32 +72,34 @@ function Register() {
                                     <div className="mt-1">
                                         <Field id="password" name="password" type="password" autoComplete="password" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                     </div>
+                                    <ErrorMessage name="Password" component="div" className="invalid-feedback" />
+
                                 </div>
                                 <div >
                                     <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
                                         gender
                                     </label>
                                     <div className="mt-1 ml-3">
-                                    <label className="text-gray-500  font-bold">
-                                        <Field
-                                            name="gender"
-                                            value="male"
-                                            className="mr-2 leading-tight"
-                                            type="radio"
-                                        />
-                                        <span class="text-sm">مرد</span>
-                                    </label>
+                                        <label className="text-gray-500  font-bold">
+                                            <Field
+                                                name="gender"
+                                                value="male"
+                                                className="mr-2 leading-tight"
+                                                type="radio"
+                                            />
+                                            <span class="text-sm">مرد</span>
+                                        </label>
                                     </div>
                                     <div className="mt-1 ml-3">
-                                    <label className="text-gray-500 font-bold">
-                                        <Field
-                                            name="gender"
-                                            value="female"
-                                            className="mr-2 leading-tight"
-                                            type="radio"
-                                        />
-                                        <span class="text-sm">زن</span>
-                                    </label>
+                                        <label className="text-gray-500 font-bold">
+                                            <Field
+                                                name="gender"
+                                                value="female"
+                                                className="mr-2 leading-tight"
+                                                type="radio"
+                                            />
+                                            <span class="text-sm">زن</span>
+                                        </label>
                                     </div>
                                 </div>
                                 <div>

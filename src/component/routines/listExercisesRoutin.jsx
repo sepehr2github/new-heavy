@@ -3,12 +3,11 @@ import { List, ListItem, ListItemAvatar, ListItemText, Typography, Avatar, Box, 
 import { useDispatch, useSelector } from "react-redux"
 import { updateAddSuperSet } from "../../store/slice/routinesdaySlice"
 
+
 const ListExercisesRoutin = ({SuperSetKey}) => {
 
     const list = useSelector(state => state.routinesday.list)
     const dispatch = useDispatch()
-
-
 
     const handleList = (id ) => {
         console.log(id, SuperSetKey );
@@ -22,6 +21,7 @@ const ListExercisesRoutin = ({SuperSetKey}) => {
         }}>
             <Typography> لیست ورزش های شما</Typography>
             {list[0]?.routine_items?.map((option, index) =>
+               option.id !== SuperSetKey?
                 <button
                     key={index}
                     onClick={() => handleList(option?.exercise_id)}
@@ -40,7 +40,7 @@ const ListExercisesRoutin = ({SuperSetKey}) => {
                             }
                         />
                     </ListItem>
-                </button>
+                </button> : ''
             )}
         </List>
     )

@@ -6,7 +6,7 @@ import {
     Typography, CardContent, IconButton, InputLabel, Avatar, Table,
     TableCell, TableContainer, TableHead, TableBody, TableRow, Paper,
     Menu, Modal, Hidden, ListItemAvatar, ListItemText, Box,
-    List, ListItem, Input, Divider, InputBase, TextField, Button
+    List, ListItem, Input, Divider, Popover, Button
 } from '@mui/material';
 
 
@@ -15,7 +15,7 @@ import AvTimerIcon from '@mui/icons-material/AvTimer';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 
-import { setRoutes, updateAddExercise, addSetUpdate, updateDeleteExercise, deleteSet } from '../../../store/slice/routinesdaySlice';
+import { setRoutes, updateAddExercise, addSetUpdate, setSuperSet, deleteSuperSetHistory, deleteSet } from '../../../store/slice/routinesdaySlice';
 import { createUpdateRoutes, setUpdateRoutes } from '../../../store/slice/updateRoutineSlice';
 // import CheckBox from '../checkBox';
 
@@ -24,12 +24,11 @@ import LabelBottomNavigation from '../../layout/buttomNavigation'
 import InputAddNumberRoutinDay from '../input/addNumberRoutinDay';
 import InputAddRestTimer from '../input/inputAddRestTimer'
 import InputAddNote from '../input/inputAddNote';
-import InputAddTitle from '../input/inputAddTitle';
-import ExampleCard from '../exampleCard';
 import MenuExercise from '../menuExercise';
 import Routines from '../routines';
 import routinApi from '../../axiosApi/axiosRoutin';
-import axios from 'axios'
+import ExampleRoutineCard from '../exampleRoutineCard';
+import ListExercisesRoutin from '../listExercisesRoutin'
 
 const style = {
     position: 'absolute',
@@ -50,20 +49,14 @@ const EditeRoutin = () => {
 
     const list = useSelector(state => state.routinesday.list)
     const updateRoute = useSelector(state => state.updateRoutine.list)
+    const super_set = useSelector(state => state.routinesday.super_set)
 
-    const [count, setCount] = useState(1)
-    const [timer, setTimer] = React.useState();
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [exercises, setExercises] = useState()
-    const [equipments, setEquipments] = useState()
-    const [muscles, setMuscles] = useState()
-    const [route, setRoute] = useState()
     const [successAPI, setSuccessAPI] = useState(true)
 
     const ITEM_HEIGHT = 48;
 
     const open = Boolean(anchorEl)
-
     const idRoutine = list[0]?.id
 
 
@@ -81,7 +74,6 @@ const EditeRoutin = () => {
     // add title and create new state 
     useEffect(() => {
         dispatch(createUpdateRoutes(list[0]?.title))
-
     }, [list])
 
 
@@ -110,14 +102,46 @@ const EditeRoutin = () => {
 
     const handleReplace = (replace) => {
         if (replace) return (
-            handleOpenModal()  ) }
+            handleOpenModal())
+    }
 
     // // response mobile hiden button
     const [openModal, setOpenModal] = useState(false);
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
 
-    if (successfull) { return <Navigate to='../routines'/> }
+
+    // create superset 
+    const [openSuperSet, setOpenSuperSet] = useState(false)
+    const handleOpenSuperSet = () => setOpenSuperSet(true)
+    const handleCloseSuperSet = () => setOpenSuperSet(false)
+    const handleSuperSet = (superSet) => {
+        if (superSet) return (
+            handleOpenSuperSet())
+    }
+    const [superSetKey, setSuperSetKey] = useState()
+    const addSuperSet = (id) => {
+        console.log(id)
+        setSuperSetKey(id)
+    }
+
+    const handleDeleteSuperSetHistory = ({ id, IndexSuper }) => {
+        dispatch(deleteSuperSetHistory({ id, IndexSuper }))
+    }
+
+    // popOver
+    const [anchorElP, setAnchorElP] = React.useState(null);
+    const openP = Boolean(anchorEl);
+    const handlePopoverOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+        setTimeout(() => {
+
+            setAnchorEl(null);
+
+        }, 1000);
+    };
+
+    if (successfull) { return <Navigate to='../routines' /> }
     return (
         <div className='routin-style '>
 
@@ -131,7 +155,7 @@ const EditeRoutin = () => {
                     </div>
                     <div className="exercise-right max-md:w-full mb-5 md:w-4/6 md:mr-4 md:ml-10 mt-6">
                         <Button onClick={handleSendServer} variant='contained' color='success' className='input-title float-right' > <h2 > ذخیره تغیرات</h2></Button>
-                       <div className='title-edite ml-32 '>   <Typography >{list[0]?.title} </Typography></div> 
+                        <div className='title-edite ml-32 '>   <Typography >{list[0]?.title} </Typography></div>
 
                         {list[0]?.routine_items?.map((routes) =>
                             < >
@@ -143,10 +167,47 @@ const EditeRoutin = () => {
                                             </Avatar>
                                         }
                                         action={
-                                            <ExampleCard Id={routes?.id} getReplace={(replace) => handleReplace(replace)} seperator={2}/>
+                                            <ExampleRoutineCard Id={routes?.id} exercise_id={routes.exercise_id} getSuperSet={(superSet) => handleSuperSet(superSet)} getSuperSetRoutin={(id) => addSuperSet(id)} getReplace={(replace) => handleReplace(replace)} seperator={2} />
                                         }
-                                        title={
+                                        title={<>
+                                            {super_set?.map((item, index) => item?.map((setId, ind) => setId?.id == routes?.exercise_id ?
+                                                <div>
+                                                    <div
+                                                        onDoubleClick={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}
+                                                        aria-owns={open ? 'mouse-over-popover' : undefined}
+                                                        aria-haspopup="true"
+                                                        onMouseEnter={handlePopoverOpen}
+                                                        // onMouseOut={handlePopoverClose}
+                                                        className='super_set'
+                                                    >
+                                                        {index + 1}
+                                                    </div>
+                                                    <Popover
+                                                        id="mouse-over-popover"
+                                                        sx={{
+                                                            pointerEvents: 'none',
+                                                        }}
+                                                        open={open}
+                                                        anchorEl={anchorEl}
+                                                        anchorOrigin={{
+                                                            vertical: 'bottom',
+                                                            horizontal: 'left',
+                                                        }}
+                                                        transformOrigin={{
+                                                            vertical: 'top',
+                                                            horizontal: 'left',
+                                                        }}
+                                                        // onClose={handlePopoverClose}
+                                                        disableRestoreFocus
+                                                    >
+                                                        <Typography sx={{ p: 1 }}> برای حذف دبل کلیک کنید</Typography>
+                                                    </Popover>
+                                                </div>
+                                                : '')
+                                            )}
                                             <h1 className='title-card'>{routes.exercise.fa_title}</h1>
+
+                                        </>
                                         }
                                     />
                                     <CardContent>
@@ -180,8 +241,8 @@ const EditeRoutin = () => {
                                                             <TableCell align="center"  >
                                                                 {<>
                                                                     <InputAddNumberRoutinDay Id={routes.id} separator={2} Index_Id={item[0]?.index_id}
-                                                                        SetId={sets.id}  amountDay={item} IndexSet={indexSet} unit={sets.unit} />
-                                                                        </>
+                                                                        SetId={sets.id} amountDay={item} IndexSet={indexSet} unit={sets.unit} />
+                                                                </>
                                                                 }
                                                             </TableCell>
                                                         )}
@@ -199,6 +260,18 @@ const EditeRoutin = () => {
                                             variant="contained">+ Add Set</Button>
                                     </Grid>
                                 </Card>
+
+                                <Modal
+                                    open={openSuperSet}
+                                    onClose={handleCloseSuperSet}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                >
+                                    <Box sx={style} className='exercise-left'>
+                                        <ListExercisesRoutin SuperSetKey={superSetKey} />
+                                    </Box>
+                                </Modal>
+
                             </>
                         )}
                         <Hidden mdUp>

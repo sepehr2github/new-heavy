@@ -6,7 +6,7 @@ import {
     Grid, Card, CardHeader, FormControl, Table, TableCell, TableContainer, TableHead, TableBody, TableRow, Paper,
     Box, TextField, InputBase, List, ListItem, ListItemAvatar, Button, Hidden,
     MenuItem, TextareaAutosize, Typography, CardContent, IconButton, InputLabel, Avatar, MenuList,
-    ListItemIcon, ListItemText, Modal
+    ListItemIcon, ListItemText, Modal,Popover 
 } from '@mui/material';
 
 
@@ -19,14 +19,14 @@ import ClearIcon from '@mui/icons-material/Clear';
 import Badge from '@mui/material/Badge';
 import { updateDeleteExercise, setRoutes, addSetUpdate, setSuperSet, deleteSuperSetHistory } from '../../store/slice/routinesdaySlice';
 import { createHistory, addTimer } from '../../store/slice/history'
-import { deleteSet ,updatecreateSuperSet } from '../../store/slice/routinesdaySlice'
+import { deleteSet, updatecreateSuperSet } from '../../store/slice/routinesdaySlice'
 import CheckBox from './checkBox';
 import UrgeWithPleasureComponent from './progressBar'
 
 import InputAddRestTimer from './input/inputAddRestTimer';
 import InputAddNumberRoutinDay from './input/addNumberRoutinDay';
 import InputAddNote from './input/inputAddNote';
-import ExamleRoutineCard from './examleRoutineCard';
+import ExampleRoutineCard from './exampleRoutineCard';
 import routinApi from '../axiosApi/axiosRoutin'
 import Alert from './alert';
 import RestTimePage from './restTimePage'
@@ -92,6 +92,26 @@ const CardRoutineDay = () => {
         dispatch(addSetUpdate(Id))
     }
 
+
+
+    // popOver
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+
+    const handlePopoverOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+        setTimeout(() => {
+           
+            setAnchorEl(null);
+           
+        }, 1000);
+    };
+
+    
+
+
+
     // // response mobile hiden button
     const [openModal, setOpenModal] = useState(false);
     const handleOpenModal = () => setOpenModal(true);
@@ -144,23 +164,26 @@ const CardRoutineDay = () => {
         )
     }
 
+
+    // create superset 
     const [openSuperSet, setOpenSuperSet] = useState(false)
     const handleOpenSuperSet = () => setOpenSuperSet(true)
     const handleCloseSuperSet = () => setOpenSuperSet(false)
 
     const handleSuperSet = (superSet) => {
         if (superSet) return (
-            handleOpenSuperSet()
-        )
+            handleOpenSuperSet())
     }
 
     const [superSetKey, setSuperSetKey] = useState()
     const addSuperSet = (id) => {
-        console.log(id)
         setSuperSetKey(id)
     }
 
 
+    const handleDeleteSuperSetHistory = ({ id, IndexSuper }) => {
+        dispatch(deleteSuperSetHistory({ id, IndexSuper }))
+    }
 
     useEffect(() => {
 
@@ -171,10 +194,8 @@ const CardRoutineDay = () => {
     }, [history])
 
 
-    const handleDeleteSuperSetHistory = ({ id, IndexSuper }) => {
-        dispatch(deleteSuperSetHistory({ id, IndexSuper }))
 
-    }
+
 
 
     if (Successfull) { return <Outlet /> }
@@ -215,13 +236,44 @@ const CardRoutineDay = () => {
                                         </>
                                         }
 
-                                        action={<ExamleRoutineCard Id={routes?.id} exercise_id={routes.exercise_id} getSuperSet={(superSet) => handleSuperSet(superSet)} getSuperSetRoutin={(id) => addSuperSet(id)} getReplace={(replace) => handleReplace(replace)}  seperator={2} />}
+                                        action={<ExampleRoutineCard Id={routes?.id} exercise_id={routes.exercise_id} getSuperSet={(superSet) => handleSuperSet(superSet)} getSuperSetRoutin={(id) => addSuperSet(id)} getReplace={(replace) => handleReplace(replace)} seperator={2} />}
                                         title={
                                             <>
                                                 {super_set?.map((item, index) => item?.map((setId, ind) => setId?.id == routes?.exercise_id ?
-                                                    <div className="super_set"><button onDoubleClick={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}> <Typography> {index + 1}</Typography></button> </div> : '')
+                                                    <div>
+                                                        <div
+                                                            onDoubleClick={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}
+                                                            aria-owns={open ? 'mouse-over-popover' : undefined}
+                                                            aria-haspopup="true"
+                                                            onMouseEnter={handlePopoverOpen}
+                                                            // onMouseOut={handlePopoverClose}
+                                                            className='super_set'
+                                                        >
+                                                            {index + 1}
+                                                        </div>
+                                                        <Popover
+                                                            id="mouse-over-popover"
+                                                            sx={{
+                                                                pointerEvents: 'none',
+                                                            }}
+                                                            open={open}
+                                                            anchorEl={anchorEl}
+                                                            anchorOrigin={{
+                                                                vertical: 'bottom',
+                                                                horizontal: 'left',
+                                                            }}
+                                                            transformOrigin={{
+                                                                vertical: 'top',
+                                                                horizontal: 'left',
+                                                            }}
+                                                            // onClose={handlePopoverClose}
+                                                            disableRestoreFocus
+                                                        >
+                                                            <Typography  sx={{ p: 1 }}> برای حذف دبل کلیک کنید</Typography>
+                                                        </Popover>
+                                                    </div>
+                                                    : '')
                                                 )}
-
 
                                                 <h1 className='title-card '>{routes?.exercise.fa_title}</h1>
                                             </>

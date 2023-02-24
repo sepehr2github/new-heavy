@@ -1,32 +1,25 @@
 import React, { useState } from 'react'
-import { Box, Input, Button, Typography, Paper } from '@mui/material'
 import App from '../../App'
-import logo from "../../logo.png";
 import routinApi from '../axiosApi/axiosRoutin'
-import { Field, Form, Formik } from 'formik'
+import { Field, Form, Formik, ErrorMessage } from 'formik'
 import { Link } from 'react-router-dom';
+import * as yup from "yup"
 
 const Login = () => {
 
     const [login, setLogin] = useState(false)
-    const [phone, setTel] = useState("")
-    const [password, setPass] = useState("")
-    const handleTel = (e) => {
-        setTel(e.target.value)
-    }
-
-    const handlepass = (e) => {
-        setPass(e.target.value)
-    }
 
     const initialValues = {
         mobile: '',
         password: ''
     }
 
-    function handleSubmit(values) {
-        console.log(values, )
+    const registerFormValidationSchema = yup.object().shape({
+        mobile: yup.string(),
+        password: yup.string().min(7,  'نباید کمتر از 7 کاراکتر باشد'),
 
+    })
+    function handleSubmit(values) {
         routinApi.post(`/pass-login`, values).then(result => {
             (!result.data.token) ?
                 console.log(result)
@@ -56,6 +49,7 @@ const Login = () => {
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                         <Formik
+                            validationSchema={registerFormValidationSchema}
                             initialValues={initialValues}
                             onSubmit={(values) => {
                                 handleSubmit(values)
@@ -63,11 +57,13 @@ const Login = () => {
                             <Form className="space-y-6">
                                 <div>
                                     <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">
-                                    mobile 
+                                        mobile
                                     </label>
                                     <div className="mt-1">
                                         <Field id="mobile" name="mobile" type="number" autoComplete="mobile" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                     </div>
+                                    <ErrorMessage name="mobile" component="div" className="invalid-feedback text-red-300" />
+
                                 </div>
                                 <div>
                                     <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -76,8 +72,10 @@ const Login = () => {
                                     <div className="mt-1">
                                         <Field id="password" name="password" type="password" autoComplete="password" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                     </div>
+                                    <ErrorMessage name="password" component="div" className="invalid-feedback text-red-300" />
+
                                 </div>
-                               <div className='mt-2'> <Link  to='/register '> قبلا ثبت نام نکرده اید</Link></div> 
+                                <div className='mt-2'> <Link to='/register '> قبلا ثبت نام نکرده اید</Link></div>
                                 <div>
                                     <button
                                         onClick={handleSubmit}

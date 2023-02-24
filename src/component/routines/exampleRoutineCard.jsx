@@ -24,7 +24,7 @@ const style = {
     p: 4,
 };
 
-export default function ExamleRoutineCard({ Id ,  getReplace ,getSuperSet,getSuperSetRoutin }) {
+export default function ExampleRoutineCard({ Id ,  getReplace ,getSuperSet,getSuperSetRoutin }) {
     const dispatch = useDispatch()
 
     const handleDelete = () => {
@@ -66,7 +66,8 @@ export default function ExamleRoutineCard({ Id ,  getReplace ,getSuperSet,getSup
                 ring-black ring-opacity-5 focus:outline-none  ">
                         <div className="  w-1 ">
                             <ul>
-                                <li>  <Menu.Item>
+                                <li> 
+                                     <Menu.Item>
                                     {({ active }) => (
                                         <button
                                             onClick={handleDelete}
@@ -79,7 +80,8 @@ export default function ExamleRoutineCard({ Id ,  getReplace ,getSuperSet,getSup
                                             <div className='flex  '><Typography>  حذف </Typography> </div>
                                         </button>
                                     )}
-                                </Menu.Item></li>
+                                </Menu.Item>
+                                </li>
 
                                 <li>
                                     <Menu.Item>

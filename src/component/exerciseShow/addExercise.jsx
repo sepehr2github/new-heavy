@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
-    Paper, Box, Hidden, Button, Modal, Typography, ListItemAvatar, Stack, TextField, Avatar,
-    ListItemText, List, ListItem, MenuItem, InputLabel, FormControl, Select, OutlinedInput
-} from '@mui/material';
+     Box, Button, Typography, Stack, Avatar,
+    ListItemText, MenuItem, InputLabel, FormControl, Select, OutlinedInput,Checkbox
+} from '@mui/material'
+
 import { useDropzone } from 'react-dropzone';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import Checkbox from '@mui/material/Checkbox';
-import { useDispatch } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-
 import routinApi from '../axiosApi/axiosRoutin'
+
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -22,7 +21,15 @@ const MenuProps = {
     },
 };
 
-const AddExercise = () => {
+  const AddExercise = () => {
+
+    const onDrop = useCallback(acceptedFiles => {
+       
+        setExercise(previousState => { return { ...previousState, image: acceptedFiles[0] } })
+
+    }, [])
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
     const [faTitle, setFaTitle] = useState(null)
     const [enTitle, setEnTitle] = useState(null)
@@ -34,19 +41,8 @@ const AddExercise = () => {
     const [primaryMuscle, setPrimaryMuscle] = useState(null)
     const [otherMuscles, setOtherMuscles] = useState([])
     const [Successfull, setSuccessfull] = useState(false)
-
-    const dispatch = useDispatch()
-    const {
-        getRootProps,
-        getInputProps,
-        isDragActive,
-        isDragAccept,
-        isDragReject
-    } = useDropzone({
-        accept: {
-            'image/jpeg': ['.jpeg', '.png']
-        }
-    });
+    const [image, setImage] = useState(null)
+    const [video, setVodeo] = useState(null)
 
     useEffect(() => {
         getTypes();
@@ -55,21 +51,16 @@ const AddExercise = () => {
     }, [])
 
     async function getTypes() {
-        routinApi.get(`/types`).then(result=> {
-            setTypes(result.data.data)
-        }).catch(err => console.log(err))
+        routinApi.get(`/types`).then(result => { setTypes(result.data.data) }).catch(err => console.log(err))
     }
 
     async function getEquipments() {
-        routinApi.get(`/equipments`).then(result=> {
-            setEquipments(result.data.data).catch(err => console.log(err))
-
-        })}
+        routinApi.get(`/equipments`).then(result => { setEquipments(result.data.data) }).catch(err => console.log(err))
+    }
 
     async function getMuscles() {
-        routinApi.get(`/muscles`).then(result => {
-            setMuscles(result.data.data).catch(err => console.log(err))
-        })}
+        routinApi.get(`/muscles`).then(result => { setMuscles(result.data.data) }).catch(err => console.log(err))
+    }
 
 
     const [exercise, setExercise] = useState({
@@ -78,7 +69,9 @@ const AddExercise = () => {
         'type_id': '',
         'equipment_id': '',
         'primary_muscle_id': '',
-        'other_muscles': []
+        'other_muscles': [],
+        'image': null,
+        'video': null
     })
 
     const handleType = (e) => {
@@ -102,20 +95,17 @@ const AddExercise = () => {
         setExercise(previousState => { return { ...previousState, primary_muscle_id: e.target.value } })
     }
     const handleOtherMuscles = (e) => {
-        setOtherMuscles(  e.target.value  )
-        setExercise(previousState => { return { ...previousState, other_muscles : e.target.value } })
+        setOtherMuscles(e.target.value)
+        setExercise(previousState => { return { ...previousState, other_muscles: e.target.value } })
     }
 
-
-     function handleSubmit() {
-        routinApi.post(`/exercises`,exercise).then(result=> console.log(result)).catch(err => console.log(err))
-         setSuccessfull(true)
+    function handleSubmit() {
+        routinApi.post(`/exercises`, exercise).then(result => console.log(result)).catch(err => console.log(err))
+        setSuccessfull(true)
     }
-
-
 
     if (Successfull) {
-        return    <Navigate to='../routines' />
+        return <Navigate to='../routines' />
     }
 
     return (
@@ -124,23 +114,22 @@ const AddExercise = () => {
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                     لطفا فرم را پر کنید
                 </Typography>
-                <div className="container">
-                    <div {...getRootProps({ className: 'dropzone , pointer' })} >
-                        <input {...getInputProps()} />
-                        {!isDragActive && (
-                            <>
-                                <Stack direction="row" spacing={2}>
-                                    <Avatar sx={{
-                                        width: '80px', height: '80px', border: 'solid 2px rgb(224, 224, 224)',
-                                        backgroundColor: '#fff'
-                                    }}>
-                                        <CameraAltIcon sx={{ fontSize: '2rem', color: '#000' }} />
-                                    </Avatar>
-                                </Stack>
-                                <h3>Add Image</h3>
-                            </>
-                        )}
+                <div className='mt-5'>
+                    <div {...getRootProps()}>
+                        <input {...getInputProps()} name="image" id="image" />
+                        <>
+                            <Stack direction="row" spacing={2}>
+                                <Avatar sx={{
+                                    width: '80px', height: '80px', border: 'solid 2px rgb(224, 224, 224)',
+                                    backgroundColor: '#fff'
+                                }}>
+                                    <CameraAltIcon sx={{ fontSize: '2rem', color: '#000' }} />
+                                </Avatar>
+                            </Stack>
+                            <h3>Add Image</h3>
+                        </>
                     </div>
+                    <hr style={{ margin: '20px 0' }}></hr>
                 </div>
                 <div className="listcreateExercise">
                     <input value={enTitle} onChange={handleEnTitle} type="text" id="lname" name="lname" placeholder=" نام انگلیسی ورزش"></input>
@@ -150,8 +139,9 @@ const AddExercise = () => {
                     <Typography>تایپ ورزش</Typography>
                     <div className="formatControler">
                         <FormControl className="formControl" >
-                            <InputLabel sx={{ lineHeight: '.7em' }} className='addExercise'
-                                id="demo-simple-select-autowidth-label" ><Typography>انتخاب کید</Typography></InputLabel>
+                            <InputLabel className='mb-4'
+                                id="demo-simple-select-autowidth-label" ><Typography className='mb-5'>انتخاب کنید</Typography>
+                            </InputLabel>
                             <Select
                                 sx={{ height: '40px' }}
                                 id="demo-simple-select-autowidth"
@@ -173,12 +163,12 @@ const AddExercise = () => {
                     </div>
                 </div>
                 <hr style={{ margin: '20px 0' }}></hr>
-                <div className="formatSelect menuFilter">
+                <div className="formatSelect ">
                     <Typography>لوازم ورزشی</Typography>
                     <div className="formatControler ">
                         <FormControl className="formControl " >
                             <InputLabel sx={{ lineHeight: '.7em' }}
-                                id="demo-simple-select-autowidth-label"><Typography>انتخاب کید</Typography></InputLabel>
+                                id="demo-simple-select-autowidth-label"><Typography>انتخاب کنید</Typography></InputLabel>
                             <Select
                                 sx={{ height: '40px' }}
                                 id="demo-simple-select-autowidth"
@@ -205,7 +195,7 @@ const AddExercise = () => {
                     <div className="formatControler">
                         <FormControl className="formControl" >
                             <InputLabel sx={{ lineHeight: '.7em' }}
-                                id="demo-simple-select-autowidth-label"><Typography>انتخاب کید</Typography></InputLabel>
+                                id="demo-simple-select-autowidth-label"><Typography>انتخاب کنید</Typography></InputLabel>
                             <Select
                                 sx={{ height: '40px' }}
                                 id="demo-simple-select-autowidth"
@@ -229,11 +219,13 @@ const AddExercise = () => {
                 <hr style={{ margin: '20px 0' }}></hr>
                 <div className="formatSelect">
                     <Typography>دیگر عضلات</Typography>
-                    <div>
-                        <FormControl sx={{ m: 1 ,width: '200px'}}>
-                            <InputLabel id="demo-multiple-checkbox-label" sx={{ lineHeight: '.7em' }}><Typography>انتخاب کید</Typography></InputLabel>
+                    <div className="formatControler">
+                        <FormControl className="formControl">
+                            <InputLabel id="demo-multiple-checkbox-label" sx={{ lineHeight: '.7em' }}>
+                                <Typography>انتخاب کنید</Typography>
+                            </InputLabel>
                             <Select
-                                sx={{ height: '60px' }}
+                                sx={{ height: '40px' }}
                                 labelId="demo-multiple-checkbox-label"
                                 id="demo-multiple-checkbox"
                                 multiple
@@ -242,7 +234,6 @@ const AddExercise = () => {
                                 input={<OutlinedInput label="Tag" />}
                                 MenuProps={MenuProps}
                                 renderValue={(selected) => selected.join(', ')}
-                                MenuProps={MenuProps}
                                 className="h-18 form-select appearance-none block w-full px-3 py-3 text-base font-normal
                                 text-gray-700  bg-white bg-clip-padding bg-no-repeat  border border-solid
                                  border-gray-300  rounded transition ease-in-out m-0 focus:text-gray-700
@@ -250,15 +241,16 @@ const AddExercise = () => {
                             >
                                 <MenuItem value="0" sx={{ width: '230px' }}>
                                     <em>None</em>
+                                </MenuItem>
+                                {muscles?.map((muscles) => (
+                                    <MenuItem key={muscles.id} value={muscles.id}>
+                                        <Checkbox />
+                                        <ListItemText primary={muscles.title} />
                                     </MenuItem>
-                                    {muscles?.map((muscles) => (
-                                        <MenuItem key={muscles.id} value={muscles.id}>
-                                            <Checkbox />
-                                            <ListItemText primary={muscles.title} />
-                                        </MenuItem>
-                                    ))}
+                                ))}
                             </Select>
                         </FormControl>
+                        <hr style={{ margin: '20px 0' }}></hr>
                     </div>
 
                 </div>
@@ -267,8 +259,8 @@ const AddExercise = () => {
                         variant="contained" type="submit" > <Typography >ارسال</Typography></Button>
 
                 </div>
-            </Box>
-        </div>
+            </Box >
+        </div >
 
 
     )
