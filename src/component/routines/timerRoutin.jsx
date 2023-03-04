@@ -38,9 +38,9 @@ const TimerRoutin = ({ start  }) => {
     }
 
     return (
-        <div className="Stopwatch">
+        <div className="Stopwatch bg-[#64748b]">
             <h3>زمان شروع روتین </h3>
-            <div className='stopwatch-card'>
+            <div className='stopwatch-card '>
                 <p>{formatTime()}</p>
 
             </div>

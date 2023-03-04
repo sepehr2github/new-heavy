@@ -54,7 +54,7 @@ export default function ExampleCard({ Id , seperator, getReplace ,getSuperSet,ge
 
     return (
         <>
-            <Menu as="div" className="ml-1 inline-block text-left">
+            <Menu as="div" className="ml-10 inline-block text-left">
                 <div>
                     <Menu.Button className="inline-flex w-full justify-center bg-white px-2 py-2 
         text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-1
@@ -83,7 +83,7 @@ export default function ExampleCard({ Id , seperator, getReplace ,getSuperSet,ge
                                             href="#"
                                             className={classNames(
                                                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                ' pl-8 pr-2 pt-3  text-sm border-black border-b-2 '
+                                                ' pl-8 pr-2 pt-3  text-sm border-black  '
                                             )}
                                         >
                                             <div className='flex  '><Typography>  حذف </Typography> </div>
@@ -99,7 +99,7 @@ export default function ExampleCard({ Id , seperator, getReplace ,getSuperSet,ge
                                                 href="#"
                                                 className={classNames(
                                                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                    ' pl-8 pt-3  pr-1 text-sm'
+                                                    ' pl-8 pt-3  pr-1 text-sm border-gray border-b-2  border-t-2'
                                                 )}
                                             >
                                                 <div className='flex  '><Typography>  جایگزینی </Typography>  </div>
@@ -107,7 +107,7 @@ export default function ExampleCard({ Id , seperator, getReplace ,getSuperSet,ge
                                         )}
                                     </Menu.Item>
                                 </li>
-
+                                                        
                                 <li>
                                     <Menu.Item>
                                         {({ active }) => (
@@ -119,7 +119,7 @@ export default function ExampleCard({ Id , seperator, getReplace ,getSuperSet,ge
                                                     ' pl-8 pt-3  pr-1 text-sm'
                                                 )}
                                             >
-                                                <div className='flex  '><Typography> سوپر ست </Typography>  </div>
+                                                <div className='flex  '><Typography> سوپرست </Typography>  </div>
                                             </button>
                                         )}
                                     </Menu.Item>

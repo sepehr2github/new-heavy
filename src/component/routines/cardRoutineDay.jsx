@@ -91,9 +91,6 @@ const CardRoutineDay = () => {
     const handleAddSet = (Id) => {
         dispatch(addSetUpdate(Id))
     }
-
-
-
     // popOver
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -107,11 +104,7 @@ const CardRoutineDay = () => {
            
         }, 1000);
     };
-
     
-
-
-
     // // response mobile hiden button
     const [openModal, setOpenModal] = useState(false);
     const handleOpenModal = () => setOpenModal(true);
@@ -133,12 +126,10 @@ const CardRoutineDay = () => {
 
     const handleStartRoutin = () => {
         setStart(true)
-
     }
 
     const handleEndRoutin = () => {
         list[0]?.routine_items.map((item) => item.routine_sets.map((sets, index) => setnumberSet(previousState => { return [...previousState, [index]] })))
-
         list[0]?.routine_items.map((item) => item.routine_sets.map((sets, index) => setNumberdone(prev => (sets.done == true ? prev + 1 : prev))))
     }
 
@@ -180,7 +171,6 @@ const CardRoutineDay = () => {
         setSuperSetKey(id)
     }
 
-
     const handleDeleteSuperSetHistory = ({ id, IndexSuper }) => {
         dispatch(deleteSuperSetHistory({ id, IndexSuper }))
     }
@@ -192,11 +182,6 @@ const CardRoutineDay = () => {
         }
 
     }, [history])
-
-
-
-
-
 
     if (Successfull) { return <Outlet /> }
 
@@ -210,14 +195,14 @@ const CardRoutineDay = () => {
                     <>
                         <>
                             <div className='hidden md:flex'>
-                                <div className={`${start ? 'hidden' : 'flex'}`}   > <Button onClick={handleStartRoutin} variant="contained" color='success' className=' h-10  button float-left '> <Typography> شروع روتین </Typography></Button></div>
-                                <div className={`${start ? 'flex' : 'hidden'} `} > <Button onClick={handleEndRoutin} variant="contained" color='success' className=' h-10  button float-right '> <Typography> اتمام روتین </Typography></Button></div>
+                                <div className={`${start ? 'hidden' : 'flex'}`} > <Button onClick={handleStartRoutin} variant="contained" color='success' className=' h-10  button float-left '> <Typography> شروع روتین </Typography></Button></div>
+                                <div className={`${start ? 'flex' : 'hidden'} `}> <Button onClick={handleEndRoutin} variant="contained" color='success' className=' h-10  button float-right '> <Typography> اتمام روتین </Typography></Button></div>
                                 <div className='mr-20'> <TimerRoutin start={start} /> </div>
                             </div>
 
                             <div className=' md:hidden'>
-                                <div className={` mb-3 justify-center ${start ? 'hidden' : 'flex'}`}   > <Button onClick={handleStartRoutin} color='success' variant="contained" className=' h-10  button '> <Typography className=' '> شروع روتین </Typography></Button></div>
-                                <div className={`mb-3 justify-center ${start ? 'flex' : 'hidden'} `} > <Button onClick={handleEndRoutin} variant="contained" color='success' className=' h-10  button  '> <Typography> اتمام روتین </Typography></Button></div>
+                                <div className={`mb-3 justify-center ${start ? 'hidden' : 'flex'}`}> <Button onClick={handleStartRoutin} color='success' variant="contained" className=' h-10  button '> <Typography className=' '> شروع روتین </Typography></Button></div>
+                                <div className={`mb-3 justify-center ${start ? 'flex' : 'hidden'}`}> <Button onClick={handleEndRoutin} variant="contained" color='success' className=' h-10  button  '> <Typography> اتمام روتین </Typography></Button></div>
                                 <div className='flex'> <TimerRoutin start={start} /> </div>
                             </div>
                         </>
@@ -247,9 +232,9 @@ const CardRoutineDay = () => {
                                                             aria-haspopup="true"
                                                             onMouseEnter={handlePopoverOpen}
                                                             // onMouseOut={handlePopoverClose}
-                                                            className='super_set'
+                                                            className={`super_set ${index == 0 ?' bg-[#f97316]' : index == 1 ? 'bg-[#06b6d4]' : index == 2 ? 'bg-[#d946ef]' : ''}`}
                                                         >
-                                                            {index + 1}
+                                                           <Typography className='text-white-500'>  {index + 1}</Typography>
                                                         </div>
                                                         <Popover
                                                             id="mouse-over-popover"

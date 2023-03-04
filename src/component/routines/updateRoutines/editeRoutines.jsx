@@ -274,10 +274,12 @@ const EditeRoutin = () => {
 
                             </>
                         )}
+                        <div className='mt-3'>
                         <Hidden mdUp>
                             <Button onClick={handleOpenModal} className="float-end  h-10 button " color="primary" variant="contained" ><Typography> اضافه کردن ورزش</Typography>
                             </Button>
                         </Hidden>
+                        </div>
                         <Modal
                             open={openModal}
                             onClose={handleCloseModal}

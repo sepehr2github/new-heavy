@@ -22,12 +22,12 @@ const Login = () => {
     function handleSubmit(values) {
         routinApi.post(`/pass-login`, values).then(result => {
             (!result.data.token) ?
-                console.log(result)
+                console.log("result"+ result)
                 :
                 localStorage.setItem("token", result.data.token)
-            localStorage.setItem("name", result.data.user.name)
+                localStorage.setItem("name", result.data.user.name)
             setLogin(true)
-        })
+        }).catch(err =>console.log(err))
     }
 
     if (login) {

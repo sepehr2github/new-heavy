@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { List, ListItem, ListItemAvatar, ListItemText, Typography, Avatar, Box, Paper, InputBase, IconButton, Modal, Button } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import { useDispatch } from 'react-redux';
-import AddNewExercise from '../exerciseShow/addNewExercise'
-import AddExercise from '../exerciseShow/addExercise'
+import CreateExercise from '../exerciseShow/createExercise'
 
 import { setExercise } from '../../store/slice/exerciseSlice'
 import { updateAddExercise } from '../../store/slice/routinesdaySlice'
@@ -148,7 +147,7 @@ const MenuExercise = ({ separator }) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-               <><AddExercise /></> 
+               <><CreateExercise /></> 
             </Modal>
             <div className=''>
                 <Paper
