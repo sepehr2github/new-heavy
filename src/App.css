@@ -952,3 +952,8 @@ p {
   margin-top: 1.3rem;
   margin-right: 1rem;
 }
+
+.exampleRoutineCard {
+  
+  direction: rtl;
+}

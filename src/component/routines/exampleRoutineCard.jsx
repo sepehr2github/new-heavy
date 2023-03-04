@@ -44,7 +44,7 @@ export default function ExampleRoutineCard({ Id ,  getReplace ,getSuperSet,getSu
 
     return (
         <>
-            <Menu as="div" className="ml-10 inline-block text-left">
+            <Menu as="div" className=" inline-block text-right exampleRoutineCard  ">
                 <div>
                     <Menu.Button className="inline-flex w-full justify-center bg-white px-2 py-2 
         text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-1
