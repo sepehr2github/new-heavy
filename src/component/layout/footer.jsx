@@ -79,7 +79,7 @@ const Footer = () => {
             </a>
           </div>
           <p class="mt-8 text-base leading-6 text-center text-gray-400">
-            © 2022 hevy, Inc. All rights reserved.
+            © 2022 DDEM, Inc. All rights reserved.
           </p>
         </div>
       </section>

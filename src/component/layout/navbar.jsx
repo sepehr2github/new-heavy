@@ -7,8 +7,7 @@ import Logout from '@mui/icons-material/Logout';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import React, { useState } from 'react';
-import logo from "../../logo.png";
-import logors from "../../logors.png";
+import LOGO from '../../img/LOGO_DDEM_BLACK.png'
 import '../../App.css';
 import './navbar.css';
 import { Link } from 'react-router-dom'
@@ -39,8 +38,8 @@ function Navbar() {
       <div className="navBar ">
         <div className='navBox mx-10'>
           <div className="navLogo">
-            <Link to='/'><img className='hidden sm:flex' src={logo} width="110" height="26" /></Link>
-            <Link to='/'><img className='flex sm:hidden ' src={logors} width="35  " height="35" /></Link>
+            <Link to='/'><img className='hidden sm:flex h-[5.5rem] w-auto' src={LOGO}  /></Link>
+            
           </div>
           <div className="navMenu ">
             <Link to='/routines' className='hidden sm:flex'>
@@ -145,11 +144,8 @@ function Navbar() {
 
     <nav className="bg-white navBarMobile  space-x-32 justify-between shadow flex sm:hidden ">
 
-      <div className='navBox mr-0'>
-        <div className="navLogo mr-2">
-          <Link to='/'><img className='hidden sm:flex' src={logo} width="110" height="26" /></Link>
-          <Link to='/'><img className='flex sm:hidden ' src={logors} width="35  " height="35" /></Link>
-        </div>
+      <div className='navBox '>      
+          <Link to='/'><img className='flex sm:hidden h-[4rem] w-[5rem] ' src={LOGO} /></Link>
       </div>
 
       <div className='navBox ml-0 '>

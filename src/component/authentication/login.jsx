@@ -4,6 +4,8 @@ import routinApi from '../axiosApi/axiosRoutin'
 import { Field, Form, Formik, ErrorMessage } from 'formik'
 import { Link } from 'react-router-dom';
 import * as yup from "yup"
+import { Navigate } from 'react-router-dom';
+import LOGO from '../../img/LOGO_DDEM_BLACK.png'
 
 const Login = () => {
 
@@ -27,11 +29,11 @@ const Login = () => {
                 localStorage.setItem("token", result.data.token)
                 localStorage.setItem("name", result.data.user.name)
             setLogin(true)
-        }).catch(err =>console.log(err))
+        }).catch(err =>alert(err.response.data.message))
     }
 
     if (login) {
-        return <App />
+        return <Navigate to='../' />
     }
 
 
@@ -40,11 +42,11 @@ const Login = () => {
             <div className="min-h-full flex flex-col justify-center py-12  sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
                     <img
-                        className="mx-auto h-12 w-auto"
-                        src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
+                        className="mx-auto h-[5.5rem] w-[5.5rem]"
+                        src={LOGO}
                         alt="Workflow"
                     />
-                    <h2 className="mt-6 text-center text-3xl tracking-tight font-bold text-gray-900">ورود به سایت</h2>
+                    <h2 className="mt-6 text-center text-3xl tracking-tight font-bold text-gray-900" >ورود به سایت DDEM</h2>
                 </div>
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">

@@ -9,6 +9,7 @@ const routinesdaySlice = createSlice({
     reducers: {
         remove: (state, { payload }) => {
             state.list = []
+            
         },
 
         setRoutes: (state, { payload }) => {
@@ -177,6 +178,7 @@ const routinesdaySlice = createSlice({
                        },
            state.super_set = state.super_set.filter((item , index) => index !== IndexSuper)
             )  },
+
 
 
 

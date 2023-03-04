@@ -15,6 +15,7 @@ import routineApi from '../axiosApi/axiosRoutin';
 import axios from 'axios'
 import Footer from '../layout/footer';
 import { useSelector } from 'react-redux';
+import CircularUnderLoad from '../loading/loading';
 
 function Routines() {
 
@@ -41,30 +42,36 @@ function Routines() {
 
     console.log(route);
 
-    const deleteRoutes =  (Id) => {
-         routineApi.delete(`/routine/${Id}`);
-         dispatch(deleteRouteRedux({Id}))
+    const deleteRoutes = (Id) => {
+        routineApi.delete(`/routine/${Id}`);
+        dispatch(deleteRouteRedux({ Id }))
     }
 
     return (
         <div className='routin-style' >
             <Navbar />
+
             <div className='hidden sm:block md:min-h-[35rem] mb-10'>
+
                 <div className='routin-box md:flex mt-14'>
                     <div className=' max-md:w-full  mb-5 md:ml-3 lg:mr-8 lg:w-1/5 '>
                         <Button className='m-2 ' variant="outlined" startIcon={<ContentPasteIcon />}>
                             <Link className='p-2 fontB' to="newroutin"> <Typography > روتین جدید</Typography> </Link>
                         </Button>
                     </div>
+
                     <div className='routin-right md:w-full lg:w-4/6  ' >
                         <div className='displayStyle'><Typography className='pt-4 length-route'>روتین های من ({routeTitle?.length})</Typography ></div>
                         {routeTitle?.map((item, index) =>
-                            <div key={index} className='displayStyle listBox '>
-                                <NavLink to={`routinesDay/${item.id}`} > <Typography className='fontB'> {item.title}</Typography></NavLink>
-                                <ExampleRoutines Id={item.id} deleteRoutes={deleteRoutes} />
-                            </div>
+                            <NavLink to={`routinesDay/${item.id}`} >
+                                <div key={index} className='displayStyle listBox '>
+                                    <Typography className='fontB'> {item.title}</Typography>
+                                    <ExampleRoutines Id={item.id} deleteRoutes={deleteRoutes} />
+                                </div>
+                            </NavLink>
                         )}
                     </div>
+
                 </div>
             </div>
             <div className='block sm:hidden '>
@@ -74,17 +81,24 @@ function Routines() {
                             <Link className='p-2 fontB' to="newroutin"> <Typography> روتین جدید</Typography> </Link>
                         </Button>
                     </div>
+
+
                     <div className='routin-right     ' >
                         <div className='displayStyle'><Typography className='pt-4 length-route'>روتین های من({routeTitle?.length})</Typography ></div>
                         {routeTitle?.map((item, index) =>
-                            <div key={index} className='displayStyle listBox '>
-                                <NavLink to={`routinesDay/${item.id}`} > <Typography className='fontB'> {item.title}</Typography></NavLink>
-                                <ExampleRoutines Id={item.id} deleteRoutes={deleteRoutes} />
-                            </div>
+                            <NavLink to={`routinesDay/${item.id}`} >
+                                <div key={index} className='displayStyle listBox '>
+                                    <Typography className='fontB'> {item.title}</Typography>
+                                    <ExampleRoutines Id={item.id} deleteRoutes={deleteRoutes} />
+                                </div>
+                            </NavLink>
                         )}
                     </div>
+
                 </div>
+
             </div>
+
         </div>
     );
 }

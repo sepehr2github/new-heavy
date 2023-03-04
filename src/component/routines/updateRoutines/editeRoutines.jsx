@@ -29,6 +29,7 @@ import Routines from '../routines';
 import routinApi from '../../axiosApi/axiosRoutin';
 import ExampleRoutineCard from '../exampleRoutineCard';
 import ListExercisesRoutin from '../listExercisesRoutin'
+import CircularUnderLoad from '../../loading/loading';
 
 const style = {
     position: 'absolute',
@@ -141,6 +142,10 @@ const EditeRoutin = () => {
         }, 1000);
     };
 
+
+    console.log(super_set);
+
+    
     if (successfull) { return <Navigate to='../routines' /> }
     return (
         <div className='routin-style '>
@@ -154,10 +159,10 @@ const EditeRoutin = () => {
                         </div>
                     </div>
                     <div className="exercise-right max-md:w-full mb-5 md:w-4/6 md:mr-4 md:ml-10 mt-6">
-                        <Button onClick={handleSendServer} variant='contained' color='success' className='input-title float-right' > <h2 > ذخیره تغیرات</h2></Button>
+                      <div className='mr-8 md:mr-5'>  <Button onClick={handleSendServer} variant='contained' color='success' className='input-title float-right ' > <h2 > ذخیره تغیرات</h2></Button></div>
                         <div className='title-edite ml-32 '>   <Typography >{list[0]?.title} </Typography></div>
-
-                        {list[0]?.routine_items?.map((routes) =>
+                        {!list[0] ?  <div className='mt-10'> <CircularUnderLoad /></div> :
+                        list[0]?.routine_items?.map((routes) =>
                             < >
                                 <Card className='' sx={{ maxWidth: 700, marginTop: 5 }} >
                                     <CardHeader
@@ -178,7 +183,7 @@ const EditeRoutin = () => {
                                                         aria-haspopup="true"
                                                         onMouseEnter={handlePopoverOpen}
                                                         // onMouseOut={handlePopoverClose}
-                                                        className='super_set'
+                                                        className={`super_set ${index == 0 ?' bg-[#f97316]' : index == 1 ? 'bg-[#06b6d4]' : index == 2 ? 'bg-[#d946ef]' : ''}`}
                                                     >
                                                         {index + 1}
                                                     </div>

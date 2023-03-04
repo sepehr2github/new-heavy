@@ -3,7 +3,9 @@ import { Field, Form, Formik, ErrorMessage } from 'formik'
 import routinApi from '../axiosApi/axiosRoutin'
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import * as yup from "yup"
+import LOGO from '../../img/LOGO_DDEM_BLACK.png'
 
 function Register() {
 
@@ -29,15 +31,15 @@ function Register() {
     if (Successfull) { return <Navigate to='./login' /> }
 
     return (
-        <>
+        <div className="login">
             <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
                     <img
-                        className="mx-auto h-12 w-auto"
-                        src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
+                        className="mx-auto h-[5.5rem] w-[5.5rem]"
+                        src={LOGO}
                         alt="Workflow"
                     />
-                    <h2 className="mt-6 text-center text-3xl tracking-tight font-bold text-gray-900">ثبت نام در</h2>
+                    <h2 className="mt-6 text-center text-3xl tracking-tight font-bold text-gray-900">  DDEM ثبت نام در</h2>
                 </div>
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -53,7 +55,7 @@ function Register() {
                                     <div className="mt-1">
                                         <Field id="name" name="name" type="text" autoComplete="name" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                     </div>
-                                    <ErrorMessage name="name" component="div" className="invalid-feedback text-red-100" />
+                                    <ErrorMessage name="name" component="div" className="invalid-feedback text-red-300" />
 
                                 </div>
                                 <div>
@@ -63,7 +65,7 @@ function Register() {
                                     <div className="mt-1">
                                         <Field id="mobile" name="mobile" type="number" autoComplete="mobile" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                     </div>
-                                    <ErrorMessage name="mobile" component="div" className="invalid-feedback" />
+                                    <ErrorMessage name="mobile" component="div" className="invalid-feedback  text-red-300" />
                                 </div>
                                 <div>
                                     <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -72,10 +74,10 @@ function Register() {
                                     <div className="mt-1">
                                         <Field id="password" name="password" type="password" autoComplete="password" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                     </div>
-                                    <ErrorMessage name="Password" component="div" className="invalid-feedback" />
+                                    <ErrorMessage name="password" component="div" className="invalid-feedback text-red-300" />
 
                                 </div>
-                                <div >
+                                <div  className="flex row">
                                     <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
                                         gender
                                     </label>
@@ -87,7 +89,7 @@ function Register() {
                                                 className="mr-2 leading-tight"
                                                 type="radio"
                                             />
-                                            <span class="text-sm">مرد</span>
+                                            <span class="text-sm  mr-2">مرد</span>
                                         </label>
                                     </div>
                                     <div className="mt-1 ml-3">
@@ -98,10 +100,11 @@ function Register() {
                                                 className="mr-2 leading-tight"
                                                 type="radio"
                                             />
-                                            <span class="text-sm">زن</span>
+                                            <span class="text-sm mr-2   ">زن</span>
                                         </label>
                                     </div>
                                 </div>
+                                <div className='mt-2'> <Link to='/login '>   حساب کاربری دارید   </Link></div>
                                 <div>
                                     <button
                                         type="submit"
@@ -115,7 +118,7 @@ function Register() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 
