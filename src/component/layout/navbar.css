@@ -1,0 +1,87 @@
+
+.navBar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding-left: 10px;
+    max-width: fit-content;
+    margin: 0px auto;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    height: 61px;
+
+    /* background-color: white; */
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+    
+    
+}
+.nav{
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+
+}
+
+.navBarMobile {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    /* max-width: fit-content; */
+    /* margin: 0px auto; */
+    -webkit-box-align: center;
+    /* align-items: center; */
+    -webkit-box-pack: justify;
+    height: 61px;
+    background-color: white;
+    padding-left: 10px;
+    
+    
+}
+.navBox {
+    display: flex;
+    align-items: center;  
+}
+.navMenu {
+    display: flex;
+    flex-direction: row;
+    margin-left: 4rem;
+    align-items: center;
+}
+.navMenu a {
+    display: flex;
+    flex: 1 1 0%;
+    color: rgb(109, 114, 127);  
+}
+
+.navMenu a:hover {
+    color : rgb(24, 24, 24)
+}
+.navMenuItem {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 0px 25px;
+    
+    
+}
+.navMenuItem p {
+    padding-left: 10px;
+    font-family: 'vazir-Bold';
+
+}
+.navProfile {
+    direction: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.name-user {
+    display: flex;
+    flex-direction: row;
+    font-family: 'vazir-Bold';
+    text-align: center;
+    font-weight: 500;
+    font-size: larger;
+    color: #676a6b;
+  }
