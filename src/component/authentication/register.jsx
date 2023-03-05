@@ -18,9 +18,17 @@ function Register() {
     }
 
     const registerFormValidationSchema = yup.object().shape({
-        name: yup.string(),
-        mobile: yup.string(),
-        password: yup.string().min(7,  'نباید کمتر از 7 کاراکتر باشد'),
+        name: yup.string()
+        .required('وارد کردن نام الزامیست')
+        .min(3,'نباید کمتر از 3 حرف باشد')
+        .max(18 ,'نباید بیشتر از 20 حرف باشد'),
+        mobile: yup.string()
+        .required('وارد کردن شماره ی همراه الزامیست'),
+        password: yup.string()
+        .min(7,  'نباید کمتر از 7 کاراکتر باشد')
+        .required('وارد کردن رمز عبور الزامیست')
+        .min(6,'نباید کمتر از 6 کاراکتر باشد')
+        .max(12,'نباید بیشتر از 12 کاراکتر باشد'),
         // gender: yup.required("یک گزینه را انتخاب کنید")
     })
 
@@ -110,7 +118,7 @@ function Register() {
                                         type="submit"
                                         className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     >
-                                        Register
+                                        ثبت نام کنید
                                     </button>
                                 </div>
                             </Form>

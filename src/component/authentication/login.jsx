@@ -18,8 +18,15 @@ const Login = () => {
     }
 
     const registerFormValidationSchema = yup.object().shape({
-        mobile: yup.string(),
-        password: yup.string().min(7, 'نباید کمتر از 7 کاراکتر باشد'),
+        mobile: yup.number().typeError("That doesn't look like a phone number")
+            .positive("A phone number can't start with a minus")
+            .integer("A phone number can't include a decimal point")
+            .min(8)
+            .required('وارد کردن شماره همراه الزامیست'),
+        password: yup.string()
+            .required('وارد کردن رمز عبور الزامیست')
+            .min(6, 'نباید کمتر از 6 کاراکتر باشد')
+            .max(12, 'نباید بیشتر از 12 کاراکتر باشد'),
 
     })
     function handleSubmit(values) {
