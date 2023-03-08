@@ -2,7 +2,7 @@ import axios from 'axios'
 
 
 const instance = axios.create({
-    baseURL: 'http://188.121.121.255/api/v1',
+    baseURL: 'https://api.ddem.ir/api/v1',
 })
 instance.defaults.headers.common['Authorization'] = ` Bearer ${localStorage.getItem("token")}`;
 

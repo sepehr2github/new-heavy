@@ -38,7 +38,7 @@ function Routines() {
             .catch(err => console.log(err))
     }
 
-    const { route } = useSWR(["http://188.121.121.255/api/v1/routine"], getRoutine)
+    const { route } = useSWR(["https://api.ddem.ir/api/v1/routine"], getRoutine)
 
     console.log(route);
 
