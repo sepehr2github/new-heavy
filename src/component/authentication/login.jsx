@@ -26,7 +26,7 @@ const Login = () => {
         password: yup.string()
             .required('وارد کردن رمز عبور الزامیست')
             .min(6, 'نباید کمتر از 6 کاراکتر باشد')
-            .max(12, 'نباید بیشتر از 12 کاراکتر باشد'),
+            .max(14, 'نباید بیشتر از 14 کاراکتر باشد'),
 
     })
     function handleSubmit(values) {
