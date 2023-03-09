@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { List, ListItem, ListItemAvatar, ListItemText, Typography, Avatar, Box, Paper, InputBase, IconButton, Modal, Button } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CreateExercise from '../exerciseShow/createExercise'
 
 import { setExercise } from '../../store/slice/exerciseSlice'
@@ -9,37 +9,29 @@ import { updateAddExercise } from '../../store/slice/routinesdaySlice'
 import { exerciseShow } from '../../store/slice/exerciseShow'
 import fit2 from '../../img/fit2.jpg'
 import routinApi from '../axiosApi/axiosRoutin'
+import CustomizedSnackbars from '../snakbar/alert';
 import axios from 'axios';
+import useSWR from 'swr';
+import {addExericse , addMuscles ,addEquipments} from '../../store/slice/listExercise'
 
 const MenuExercise = ({ separator }) => {
 
-    const [exercises, setExercises] = useState()
-    const [equipments, setEquipments] = useState()
-    const [muscles, setMuscles] = useState()
+    const list = useSelector(state => state.listExercise.list)
 
     const dispatch = useDispatch()
     // api
-
-    useEffect(() => {
-        getExercise()
-        getEquipments()
-        getMuscles()
-    }, [])
-
-   const token = localStorage.getItem("token")
+ 
+    axios.defaults.headers.get['Authorization'] = `Bearer ${localStorage.getItem("token")}`
    
-    function getExercise() {
-        routinApi.get(`/exercises`,token).then(res => setExercises(res.data.data)).catch(err => console.log(err))
+   const { rout } = useSWR(["https://api.ddem.ir/api/v1"], getExercise)
+
+    function getExercise(url) {
+        axios.get(`${url}/exercises`).then(res => dispatch(addExericse(res.data.data))).catch(err => console.log(err))
+        axios.get(`${url}/equipments`).then(res => dispatch(addEquipments(res.data.data))).catch(err => console.log(err))
+        axios.get(`${url}/muscles`).then(res => dispatch(addMuscles(res.data.data))).catch(err => console.log(err))
     }
 
-    function getEquipments() {
-        routinApi.get(`/equipments`,token).then(res => setEquipments(res.data.data)).catch(err => console.log(err))
-    }
 
-    function getMuscles() {
-        routinApi.get(`/muscles`,token).then(res => setMuscles(res.data.data)).catch(err => console.log(err))
-    }   
-    // create exercise 
 
     const [openCreateList, setOpenCreateList] = useState(false)
     const handleOpenCreate = () => setOpenCreateList(true)
@@ -48,7 +40,7 @@ const MenuExercise = ({ separator }) => {
     // add exercise
 
     const handleList = (Id) => {
-        const chosen = exercises.find((item) => item.id == Id)
+        const chosen = list.exercises.find((item) => item.id == Id)
         if (separator == 1) { dispatch(setExercise({ chosen })) }
         if (separator == 2) { dispatch(updateAddExercise({ chosen })) }
         if (separator == 3) { dispatch(exerciseShow({ chosen })) }
@@ -75,8 +67,8 @@ const MenuExercise = ({ separator }) => {
     }
 
     const Filtered = filterEquipment == 0 ?
-        exercises :
-        exercises.filter((option) =>
+    list.exercises :
+    list.exercises.filter((option) =>
             option.equipment_id == filterEquipment
             // option.equipment.title.toLowerCase().includes(filterEquipment.toLowerCase())
         );
@@ -91,11 +83,17 @@ const MenuExercise = ({ separator }) => {
 
     const searched = !search ?
         filtered :
-        exercises.filter((option) =>
+        list.exercises.filter((option) =>
             option.fa_title.toLowerCase().includes(search.toLowerCase()) ||
             option.en_title.toLowerCase().includes(search.toLowerCase()))
 
 
+            const [successfullcreateExercise , setSuccessfullcreateExercise]=useState(false)
+      
+       
+       const successfull = ()=> {
+        setSuccessfullcreateExercise(true)
+       }
     return (
         <div >
             <Box component="form" container
@@ -114,7 +112,7 @@ const MenuExercise = ({ separator }) => {
                                 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                 aria-label="Default select example">
                                 <option key='0' value='0'> <Typography className="fv">لوازم ورزشی</Typography></option>
-                                {equipments?.map((item ,index) => <option className="fv" key={item.id} value={item.id}>
+                                {list.equipments?.map((item ,index) => <option className="fv" key={item.id} value={item.id}>
                                     <h1>{item.title}</h1></option>)}
                             </select>
                         </Typography>
@@ -132,7 +130,7 @@ const MenuExercise = ({ separator }) => {
                                            focus:bg-white focus:border-blue-600 focus:outline-none"
                                 aria-label="Default select example">
                                 <option key='0' value='0'> <h1 >عضلات</h1></option>
-                                {muscles?.map((item) => <option key={item.id} value={item.id}><h1>{item.title}</h1></option>)}
+                                {list.musclses?.map((item) => <option key={item.id} value={item.id}><h1>{item.title}</h1></option>)}
                             </select>
                         </Typography>
                     </div>
@@ -147,7 +145,7 @@ const MenuExercise = ({ separator }) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-               <><CreateExercise /></> 
+               <><CreateExercise successfull={successfull} handleCloseCreate={handleCloseCreate}/></> 
             </Modal>
             <div className=''>
                 <Paper
@@ -202,6 +200,7 @@ const MenuExercise = ({ separator }) => {
                     )}
                 </List>
             </div>
+            {successfullcreateExercise? <CustomizedSnackbars variant={'success'} text={'ورزش جدید با موفقیت ساخته شد'} /> :''}
         </div>
     )
 }

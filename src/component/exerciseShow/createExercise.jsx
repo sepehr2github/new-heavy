@@ -5,11 +5,9 @@ import {
 } from '@mui/material'
 
 import { useDropzone } from 'react-dropzone';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import { Navigate } from 'react-router-dom';
 import routinApi from '../axiosApi/axiosRoutin'
 import { useFormik } from 'formik';
-import { Label } from '@mui/icons-material';
+import CustomizedSnackbars from '../snakbar/alert'
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -22,13 +20,15 @@ const MenuProps = {
     },
 };
 
-const CreateExercise = () => {
+const CreateExercise = ({ handleCloseCreate, successfull }) => {
 
 
     const [types, setTypes] = useState()
     const [equipments, setEquipments] = useState()
     const [muscles, setMuscles] = useState()
-    const [Successfull, setSuccessfull] = useState(false)
+    const [Condition, setCondition] = useState()
+    const [error, setError] = useState(false)
+    const [text, setText] = useState()
 
     useEffect(() => {
         getTypes();
@@ -60,9 +60,16 @@ const CreateExercise = () => {
             video: null
         },
         onSubmit: values => {
-            console.log(values);
-            routinApi.post(`/exercises`, values).then(result => console.log(result)).catch(err => console.log(err))
-            setSuccessfull(true)
+            routinApi.post(`/exercises`, values)
+                .then(res => {
+                    setText(res.data.message)
+                    setCondition(1)
+                })
+                .catch(err => {
+                    setText(err.response.data.message)
+                    setCondition(2)
+                })
+            //  handleCloseCreate(false)
         }
     },
     );
@@ -70,15 +77,12 @@ const CreateExercise = () => {
 
     // dropzone
     const onDrop = useCallback(acceptedFiles => {
-      
+
     }, [])
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
 
-    if (Successfull) {
-        //  return <Navigate to='../routines' />
-    }
 
     return (
         <div className='fv'>
@@ -280,6 +284,7 @@ const CreateExercise = () => {
                     </div>
                 </form>
             </Box >
+            {Condition ? <CustomizedSnackbars variant={Condition} text={text} /> : ''}
         </div >
 
 

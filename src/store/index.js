@@ -6,6 +6,7 @@ import routineReduser from './slice/routineSlice'
 import updateRoutineReduser from './slice/updateRoutineSlice'
 import historyRoutinSlice from './slice/history'
 import titleRoutinReduser from './slice/titleRoutin'
+import listExerciseSlice from './slice/listExercise'
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
     routine : routineReduser,
     updateRoutine : updateRoutineReduser,
     historyRoutin : historyRoutinSlice,
-    titleRoutin : titleRoutinReduser
+    titleRoutin : titleRoutinReduser,
+    listExercise : listExerciseSlice
   },
 })
 

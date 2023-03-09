@@ -8,6 +8,7 @@ import { Navigate } from 'react-router-dom';
 import LOGO from '../../img/LOGO_DDEM_BLACK.png'
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import CustomizedSnackbars from '../snakbar/alert';
 const Login = () => {
 
     const [login, setLogin] = useState(false)
@@ -32,7 +33,7 @@ const Login = () => {
     function handleSubmit(values) {
         routinApi.post(`/pass-login`, values).then(result => {
             (!result.data.token) ?
-                console.log("result" + result)
+                console.log('ok')
                 :
                 localStorage.setItem("token", result.data.token)
             localStorage.setItem("name", result.data.user.name)
@@ -48,10 +49,7 @@ const Login = () => {
     return (
         <>
             {error ? <>
-                <Alert severity="error">
-                    <AlertTitle>Error</AlertTitle>
-                    شماره ی موبایل یا رمز عبور اشتباه است
-                </Alert>
+                <CustomizedSnackbars variant={2} text={'شماره همراه یا رمز عبور اشتباه است'} />
                 {setTimeout(() => {
                     setError(false)
                 }, 3000)}

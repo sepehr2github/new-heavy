@@ -12,7 +12,7 @@ const CardExercise = () => {
 
   const list = useSelector(state => state.exerciseShow.list)
 
-console.log(list);
+
   return (
 
     <div>

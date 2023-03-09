@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useDispatch } from "react-redux";
 import Navbar from '../layout/navbar';
 import {
-    Button, Grid, Typography, Paper,Hidden , Modal , Box
+    Button, Grid, Typography, Paper, Hidden, Modal, Box
 } from '@mui/material';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import CardSelect from './cardSelect';
@@ -51,6 +51,7 @@ function Newroutin() {
 
     const [server, setServer] = useState(false)
     const [Successfull, setSuccessfull] = useState(false)
+    const [navi, setNavi] = useState(false)
     const handleSetList = () => {
         list.map((item) => dispatch(setRoutes({ item })))
         setServer(true)
@@ -76,12 +77,13 @@ function Newroutin() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-
     if (Successfull) {
-        return <Navigate to='../routines' />
+        return (
+            <div>
 
+                <Navigate to='../routines' />
+            </div>)
     }
-
     return (
         <div className='newRoutin-style  md:direction: rtl' >
             <Navbar />
@@ -128,6 +130,8 @@ function Newroutin() {
                     </div>
                 </div>
             </div >
+           
+
         </div >
 
     );

@@ -48,9 +48,9 @@ export default function ExampleRoutines(Props) {
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <a
+                <button
                   onClick={() => Props.deleteRoutes(Props.Id)}
-                  href="#"
+                
                   className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                     'block px-4 py-2 text-sm'
@@ -58,7 +58,7 @@ export default function ExampleRoutines(Props) {
                 >
                   <Typography> حذف</Typography>
 
-                </a>
+                </button>
               )}
             </Menu.Item>
           </div>

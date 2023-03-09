@@ -21,8 +21,6 @@ function Routines() {
 
     const dispatch = useDispatch()
     const routeTitle = useSelector(state => state.titleRoutin?.list)
-    const [refresh, setRefresh] = useState(true)
-    // const [routeTitle, setRoute] = useState()
 
     useEffect(() => {
         dispatch(remove())
@@ -39,8 +37,6 @@ function Routines() {
     }
 
     const { route } = useSWR(["https://api.ddem.ir/api/v1/routine"], getRoutine)
-
-    console.log(route);
 
     const deleteRoutes = (Id) => {
         routineApi.delete(`/routine/${Id}`);
@@ -63,12 +59,14 @@ function Routines() {
                     <div className='routin-right md:w-full lg:w-4/6  ' >
                         <div className='displayStyle'><Typography className='pt-4 length-route'>روتین های من ({routeTitle?.length})</Typography ></div>
                         {routeTitle?.map((item, index) =>
-                            <NavLink to={`routinesDay/${item.id}`} >
-                                <div key={index} className='displayStyle listBox '>
-                                    <Typography className='fontB'> {item.title}</Typography>
-                                    <ExampleRoutines Id={item.id} deleteRoutes={deleteRoutes} />
-                                </div>
-                            </NavLink>
+                            <div className='displayStyle listBox '>
+                                <NavLink to={`routinesDay/${item.id}`} >
+                                    <div key={index} className=' ' >
+                                        <Typography className='fontB'> {item.title}</Typography>
+                                    </div>
+                                </NavLink>
+                                <ExampleRoutines Id={item.id} deleteRoutes={deleteRoutes} />
+                            </div>
                         )}
                     </div>
 
@@ -86,12 +84,12 @@ function Routines() {
                     <div className='routin-right     ' >
                         <div className='displayStyle'><Typography className='pt-4 length-route'>روتین های من({routeTitle?.length})</Typography ></div>
                         {routeTitle?.map((item, index) =>
-                            <NavLink to={`routinesDay/${item.id}`} >
-                                <div key={index} className='displayStyle listBox '>
+                            <div key={index} className='displayStyle listBox '>
+                                <NavLink to={`routinesDay/${item.id}`} >
                                     <Typography className='fontB'> {item.title}</Typography>
-                                    <ExampleRoutines Id={item.id} deleteRoutes={deleteRoutes} />
-                                </div>
-                            </NavLink>
+                                </NavLink>
+                                <ExampleRoutines Id={item.id} deleteRoutes={deleteRoutes} />
+                          </div>
                         )}
                     </div>
 
