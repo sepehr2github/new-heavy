@@ -12,21 +12,24 @@ import routinApi from '../axiosApi/axiosRoutin'
 import CustomizedSnackbars from '../snakbar/alert';
 import axios from 'axios';
 import useSWR from 'swr';
-import {addExericse , addMuscles ,addEquipments} from '../../store/slice/listExercise'
+import { addExericse, addMuscles, addEquipments } from '../../store/slice/listExercise'
+import Skeleton from '@mui/material/Skeleton';
 
 const MenuExercise = ({ separator }) => {
 
     const list = useSelector(state => state.listExercise.list)
 
     const dispatch = useDispatch()
+
+    const [loading, setLoading] = useState(false)
     // api
- 
+
     axios.defaults.headers.get['Authorization'] = `Bearer ${localStorage.getItem("token")}`
-   
-   const { rout } = useSWR(["https://api.ddem.ir/api/v1"], getExercise)
+
+    const { rout } = useSWR(["https://api.ddem.ir/api/v1"], getExercise)
 
     function getExercise(url) {
-        axios.get(`${url}/exercises`).then(res => dispatch(addExericse(res.data.data))).catch(err => console.log(err))
+         axios.get(`${url}/exercises`).then(res => dispatch(addExericse(res.data.data))).catch(err => console.log(err))
         axios.get(`${url}/equipments`).then(res => dispatch(addEquipments(res.data.data))).catch(err => console.log(err))
         axios.get(`${url}/muscles`).then(res => dispatch(addMuscles(res.data.data))).catch(err => console.log(err))
     }
@@ -35,7 +38,7 @@ const MenuExercise = ({ separator }) => {
 
     const [openCreateList, setOpenCreateList] = useState(false)
     const handleOpenCreate = () => setOpenCreateList(true)
-    const handleCloseCreate = () => setOpenCreateList(false) 
+    const handleCloseCreate = () => setOpenCreateList(false)
 
     // add exercise
 
@@ -67,8 +70,8 @@ const MenuExercise = ({ separator }) => {
     }
 
     const Filtered = filterEquipment == 0 ?
-    list.exercises :
-    list.exercises.filter((option) =>
+        list.exercises :
+        list.exercises.filter((option) =>
             option.equipment_id == filterEquipment
             // option.equipment.title.toLowerCase().includes(filterEquipment.toLowerCase())
         );
@@ -88,12 +91,12 @@ const MenuExercise = ({ separator }) => {
             option.en_title.toLowerCase().includes(search.toLowerCase()))
 
 
-            const [successfullcreateExercise , setSuccessfullcreateExercise]=useState(false)
-      
-       
-       const successfull = ()=> {
+    const [successfullcreateExercise, setSuccessfullcreateExercise] = useState(false)
+
+
+    const successfull = () => {
         setSuccessfullcreateExercise(true)
-       }
+    }
     return (
         <div >
             <Box component="form" container
@@ -112,7 +115,7 @@ const MenuExercise = ({ separator }) => {
                                 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                 aria-label="Default select example">
                                 <option key='0' value='0'> <Typography className="fv">لوازم ورزشی</Typography></option>
-                                {list.equipments?.map((item ,index) => <option className="fv" key={item.id} value={item.id}>
+                                {list.equipments?.map((item, index) => <option className="fv" key={item.id} value={item.id}>
                                     <h1>{item.title}</h1></option>)}
                             </select>
                         </Typography>
@@ -145,7 +148,7 @@ const MenuExercise = ({ separator }) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-               <><CreateExercise successfull={successfull} handleCloseCreate={handleCloseCreate}/></> 
+                <><CreateExercise successfull={successfull} handleCloseCreate={handleCloseCreate} /></>
             </Modal>
             <div className=''>
                 <Paper
@@ -172,35 +175,47 @@ const MenuExercise = ({ separator }) => {
                     direction: 'rtl', width: '100%', marginTop: 5,
                     bgcolor: 'background.paper', maxHeight: 360, maxWidth: 360, position: 'relative', overflow: 'auto',
                 }}>
-                    {searched?.map((option, index) =>
-                        <button
-                        key={index}
-                            onClick={() => handleList(option.id)}
-                            className="list-button hover:bg-gray-100">
-                            <ListItem alignItems="flex-start  "  key={index}>
-                                <ListItemAvatar className='mb-2'>
-                                    <Avatar alt="Remy Sharp" sx={{ width: 50, height: 50 }} src={fit2} />
-                                </ListItemAvatar>
-                                <ListItemText
-                                    className='mr-5 pt-1'
-                                    alignItems="flex-start"
-                                    primary={
-                                        <Typography>
-                                            {option.fa_title}
-                                        </Typography>
-                                    }
-                                    secondary={
-                                        <React.Fragment>
-                                            {option.primary_muscle.title}
-                                        </React.Fragment>
-                                    }
-                                />
-                            </ListItem>
-                        </button>
-                    )}
+                    {searched ?
+                        searched.map((option, index) =>
+                            <button
+                                key={index}
+                                onClick={() => handleList(option.id)}
+                                className="list-button hover:bg-gray-100">
+                                <ListItem alignItems="flex-start  " key={index}>
+                                    <ListItemAvatar className='mb-2'>
+                                        <Avatar alt="Remy Sharp" sx={{ width: 50, height: 50 }} src={fit2} />
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        className='mr-5 pt-1'
+                                        alignItems="flex-start"
+                                        primary={
+                                            <Typography>
+                                                {option.fa_title}
+                                            </Typography>
+                                        }
+                                        secondary={
+                                            <React.Fragment>
+                                                {option.primary_muscle.title}
+                                            </React.Fragment>
+                                        }
+                                    />
+                                </ListItem>
+                            </button>
+                        ) :
+                        <>
+                            <div className='flex row'>
+                                <Skeleton animation="wave" variant="circular" width={40} height={40} />
+                                <Skeleton animation="wave" height={30} width="75%" style={{ marginTop: 2 }} />
+                            </div>
+                            <div className='flex row mt-8'>
+                                <Skeleton animation="wave" variant="circular" width={40} height={40} />
+                                <Skeleton animation="wave" height={30} width="75%" style={{ marginTop: 2 }} />
+                            </div>
+                        </>
+                    }
                 </List>
             </div>
-            {successfullcreateExercise? <CustomizedSnackbars variant={'success'} text={'ورزش جدید با موفقیت ساخته شد'} /> :''}
+            {successfullcreateExercise ? <CustomizedSnackbars variant={'success'} text={'ورزش جدید با موفقیت ساخته شد'} /> : ''}
         </div>
     )
 }

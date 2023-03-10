@@ -28,6 +28,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
 import { textAlign } from '@mui/system';
+import Skeleton from '@mui/material/Skeleton';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -217,8 +218,11 @@ const CardRoutineDay = () => {
                                         <Card key={routes.id} sx={{ maxWidth: 700, marginTop: 5 }}  >
                                             <CardHeader className='mt-5'
 
-                                                avatar={<>
-
+                                                avatar={
+                                                    !list ?
+                                                    <Skeleton animation="wave" variant="circular" width={40} height={40} />
+                                                    :
+                                                <>
                                                     <Avatar aria-label="recipe">
                                                         <img className='imglist' />
                                                     </Avatar>

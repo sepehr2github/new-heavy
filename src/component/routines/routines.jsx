@@ -16,12 +16,13 @@ import axios from 'axios'
 import Footer from '../layout/footer';
 import { useSelector } from 'react-redux';
 import CircularUnderLoad from '../loading/loading';
-
+import Skeleton from '@mui/material/Skeleton';
 function Routines() {
 
     const dispatch = useDispatch()
-    const routeTitle = useSelector(state => state.titleRoutin?.list)
+     const routeTitle = useSelector(state => state.titleRoutin?.list)
 
+    
     useEffect(() => {
         dispatch(remove())
         dispatch(Remove())
@@ -43,6 +44,7 @@ function Routines() {
         dispatch(deleteRouteRedux({ Id }))
     }
 
+    console.log(routeTitle);
     return (
         <div className='routin-style' >
             <Navbar />
@@ -58,7 +60,8 @@ function Routines() {
 
                     <div className='routin-right md:w-full lg:w-4/6  ' >
                         <div className='displayStyle'><Typography className='pt-4 length-route'>روتین های من ({routeTitle?.length})</Typography ></div>
-                        {routeTitle?.map((item, index) =>
+                        {routeTitle ?
+                        routeTitle.map((item, index) =>
                             <div className='displayStyle listBox '>
                                 <NavLink to={`routinesDay/${item.id}`} >
                                     <div key={index} className=' ' >
@@ -67,7 +70,10 @@ function Routines() {
                                 </NavLink>
                                 <ExampleRoutines Id={item.id} deleteRoutes={deleteRoutes} />
                             </div>
-                        )}
+                        )
+                        :
+                        <Skeleton animation="wave" height={30} width="100%" style={{ marginTop: 7 , marginBottom:8}} />
+                        }
                     </div>
 
                 </div>
@@ -83,14 +89,18 @@ function Routines() {
 
                     <div className='routin-right     ' >
                         <div className='displayStyle'><Typography className='pt-4 length-route'>روتین های من({routeTitle?.length})</Typography ></div>
-                        {routeTitle?.map((item, index) =>
+                        {routeTitle?
+                        routeTitle.map((item, index) =>
                             <div key={index} className='displayStyle listBox '>
                                 <NavLink to={`routinesDay/${item.id}`} >
                                     <Typography className='fontB'> {item.title}</Typography>
                                 </NavLink>
                                 <ExampleRoutines Id={item.id} deleteRoutes={deleteRoutes} />
                           </div>
-                        )}
+                        )
+                        :
+                        <Skeleton animation="wave" height={30} width="100%" style={{ marginTop: 7 , marginBottom:8}} />
+                        }
                     </div>
 
                 </div>

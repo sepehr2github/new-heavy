@@ -37,7 +37,8 @@ function Register() {
 
     const handleSubmit = (value) => {
      
-        routinApi.post(`/register`, value).then(res => setSuccessfull(true)).catch(err => setTextError(err.response.data.message), setError(true))
+        routinApi.post(`/register`, value).then(res => setSuccessfull(true))
+        .catch(err => (err.request.status == 404 || 422)? (setTextError(err.response.data.message), setError(true)) : '')
     }
     if (Successfull) { return <Navigate to='./login' /> }
 

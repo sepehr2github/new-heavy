@@ -31,15 +31,20 @@ const Login = () => {
 
     })
     function handleSubmit(values) {
-        routinApi.post(`/pass-login`, values).then(result => {
+        routinApi.post(`/pass-login`, values)
+        .then(result => {
             (!result.data.token) ?
-                console.log('ok')
+                
+                console.log(result)
                 :
                 localStorage.setItem("token", result.data.token)
             localStorage.setItem("name", result.data.user.name)
             setError(false)
             setLogin(true)
-        }).catch(err => setError(true))
+            console.log(result);
+        })
+        .catch(err =>
+           (err.request.status == 404 || 422)? setError(true) : '')
     }
 
     if (login) {
@@ -48,7 +53,7 @@ const Login = () => {
 
     return (
         <>
-            {error ? <>
+            {error==true ? <>
                 <CustomizedSnackbars variant={2} text={'شماره همراه یا رمز عبور اشتباه است'} />
                 {setTimeout(() => {
                     setError(false)
