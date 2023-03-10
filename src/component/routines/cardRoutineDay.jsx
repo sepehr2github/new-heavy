@@ -57,16 +57,27 @@ const CardRoutineDay = () => {
     const [Successfull, setSuccessfull] = useState(false)
     const [error, setError] = useState(false)
 
+    useEffect(() => {
 
-            const getRoutine = async (url) => {
-                await routinApi.get(`${url}/${param.id}`).then(result => {
-                    dispatch(setRoutes(result.data.data));
-                    dispatch(setSuperSet(result?.data?.super_set))
-                    setSuccessAPI(false)
-                }).catch(err => console.log(err))
-            }
-            
-    const { route } = useSWR(["https://api.ddem.ir/api/v1/routine"], getRoutine)
+        const getRoutine = async (url) => {
+            await routinApi.get(`/routine/${param.id}`).then(result => {
+                dispatch(setRoutes(result.data.data));
+                dispatch(setSuperSet(result?.data?.super_set))
+                setSuccessAPI(false)
+            }).catch(err => console.log(err))
+        }
+        getRoutine()
+    }, [])
+
+
+
+
+
+
+
+
+
+
 
     useEffect(() => {
         if (successAPI == true) {
@@ -84,7 +95,6 @@ const CardRoutineDay = () => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-
     const handlePopoverOpen = (event) => {
         setAnchorEl(event.currentTarget);
         setTimeout(() => {
@@ -94,6 +104,14 @@ const CardRoutineDay = () => {
         }, 1000);
     };
 
+    const [anchorel, setAnchorel] = React.useState(null);
+    const openMobile = Boolean(anchorel);
+    const handlePopoverOpenMobile = (event) => {
+        setAnchorel(event.currentTarget);
+        setTimeout(() => {
+            setAnchorel(null);
+        }, 1000);
+    }
     // // response mobile hiden button
     const [openModal, setOpenModal] = useState(false);
     const handleOpenModal = () => setOpenModal(true);
@@ -187,7 +205,7 @@ const CardRoutineDay = () => {
                         </Stack>
                         {setTimeout(() => {
                             setError(false)
-                        }, 3000) }
+                        }, 3000)}
                     </>
                     : ''
                 }
@@ -220,13 +238,13 @@ const CardRoutineDay = () => {
 
                                                 avatar={
                                                     !list ?
-                                                    <Skeleton animation="wave" variant="circular" width={40} height={40} />
-                                                    :
-                                                <>
-                                                    <Avatar aria-label="recipe">
-                                                        <img className='imglist' />
-                                                    </Avatar>
-                                                </>
+                                                        <Skeleton animation="wave" variant="circular" width={40} height={40} />
+                                                        :
+                                                        <>
+                                                            <Avatar aria-label="recipe">
+                                                                <img className='imglist' />
+                                                            </Avatar>
+                                                        </>
                                                 }
 
                                                 action={<ExampleRoutineCard Id={routes?.id} exercise_id={routes.exercise_id} getSuperSet={(superSet) => handleSuperSet(superSet)} getSuperSetRoutin={(id) => addSuperSet(id)} getReplace={(replace) => handleReplace(replace)} seperator={2} />}
@@ -238,10 +256,11 @@ const CardRoutineDay = () => {
                                                                 <div>
                                                                     <div
                                                                         onDoubleClick={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}
+                                                                        // onTouchEnd={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}
                                                                         aria-owns={open ? 'mouse-over-popover' : undefined}
                                                                         aria-haspopup="true"
                                                                         onMouseEnter={handlePopoverOpen}
-                                                                        // onMouseOut={handlePopoverClose}
+                                                                        onTouchStart={handlePopoverOpenMobile}
                                                                         className={`super_set ${index == 0 ? ' bg-[#f97316]' : index == 1 ? 'bg-[#06b6d4]' : index == 2 ? 'bg-[#d946ef]' : ''}`}
                                                                     >
                                                                         <Typography className='text-white-500'>  {index + 1}</Typography>
@@ -265,6 +284,26 @@ const CardRoutineDay = () => {
                                                                         disableRestoreFocus
                                                                     >
                                                                         <Typography sx={{ p: 1 }}> برای حذف دبل کلیک کنید</Typography>
+                                                                    </Popover>
+                                                                    <Popover
+                                                                        id="mouse-over-popover"
+                                                                        sx={{
+                                                                            pointerEvents: 'none',
+                                                                        }}
+                                                                        open={openMobile}
+                                                                        anchorEl={anchorel}
+                                                                        anchorOrigin={{
+                                                                            vertical: 'bottom',
+                                                                            horizontal: 'left',
+                                                                        }}
+                                                                        transformOrigin={{
+                                                                            vertical: 'top',
+                                                                            horizontal: 'left',
+                                                                        }}
+                                                                        // onClose={handlePopoverClose}
+                                                                        disableRestoreFocus
+                                                                    >
+                                                                        <Typography sx={{ p: 1 }}> برای حذف نگه دارید</Typography>
                                                                     </Popover>
                                                                 </div>
                                                                 : '')

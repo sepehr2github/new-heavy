@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { useDispatch } from 'react-redux'
-import { updateDeleteExercise, addReplace , updatecreateSuperSet} from '../../store/slice/routinesdaySlice'
+import { updateDeleteExercise, addReplace, updatecreateSuperSet } from '../../store/slice/routinesdaySlice'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Typography} from '@mui/material'
+import { Typography } from '@mui/material'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -24,24 +24,27 @@ const style = {
     p: 4,
 };
 
-export default function ExampleRoutineCard({ Id ,  getReplace ,getSuperSet,getSuperSetRoutin }) {
+export default function ExampleRoutineCard({ Id, getReplace, getSuperSet, getSuperSetRoutin }) {
     const dispatch = useDispatch()
 
     const handleDelete = () => {
-     dispatch(updateDeleteExercise(Id)) 
+        dispatch(updateDeleteExercise(Id))
     }
 
     const handleReplace = () => {
         getReplace(true)
-     dispatch(updateDeleteExercise(Id)) 
+        dispatch(updateDeleteExercise(Id))
     }
 
     const handleSuperSet = () => {
-        dispatch(updatecreateSuperSet(Id))  
+        dispatch(updatecreateSuperSet(Id))
         getSuperSet(true)
         getSuperSetRoutin(Id)
     }
 
+    const handleDeleteSuperSet = () => {
+
+    }
     return (
         <>
             <Menu as="div" className=" inline-block text-right exampleRoutineCard  ">
@@ -66,21 +69,21 @@ export default function ExampleRoutineCard({ Id ,  getReplace ,getSuperSet,getSu
                 ring-black ring-opacity-5 focus:outline-none  ">
                         <div className="  w-1 ">
                             <ul>
-                                <li> 
-                                     <Menu.Item>
-                                    {({ active }) => (
-                                        <button
-                                            onClick={handleDelete}
-                                            href="#"
-                                            className={classNames(
-                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                ' pl-8 pr-2 pt-3  text-sm  '
-                                            )}
-                                        >
-                                            <div className='flex  '><Typography>  حذف </Typography> </div>
-                                        </button>
-                                    )}
-                                </Menu.Item>
+                                <li>
+                                    <Menu.Item>
+                                        {({ active }) => (
+                                            <button
+                                                onClick={handleDelete}
+                                                href="#"
+                                                className={classNames(
+                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                    ' pl-8 pr-2 pt-3  text-sm  '
+                                                )}
+                                            >
+                                                <div className='flex  '><Typography>  حذف </Typography> </div>
+                                            </button>
+                                        )}
+                                    </Menu.Item>
                                 </li>
 
                                 <li>
