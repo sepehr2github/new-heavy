@@ -43,7 +43,7 @@ const routinesdaySlice = createSlice({
                 exercise_id: chosen.id,
                 note: '',
                 order: 1,
-                rest_timer: '',
+                rest_timer: 0,
                 exercise: { id: chosen.id, fa_title: chosen.fa_title, en_title: chosen.en_title, type: chosen.type },
                 routine_sets: []
             })

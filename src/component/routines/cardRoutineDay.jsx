@@ -68,17 +68,7 @@ const CardRoutineDay = () => {
         }
         getRoutine()
     }, [])
-
-
-
-
-
-
-
-
-
-
-
+    
     useEffect(() => {
         if (successAPI == true) {
             routinApi.get(`/routine/history/show/${param.id}`).then(result => {
