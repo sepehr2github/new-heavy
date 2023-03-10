@@ -28,7 +28,10 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
 import { textAlign } from '@mui/system';
+import Media from '../loading/skeleton';
+import useSWR from 'swr';
 import Skeleton from '@mui/material/Skeleton';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -53,20 +56,17 @@ const CardRoutineDay = () => {
     const [start, setStart] = useState(null)
     const [Successfull, setSuccessfull] = useState(false)
     const [error, setError] = useState(false)
-    useEffect(() => {
 
-        if (successAPI == true) {
-            const getRoutinApi = async () => {
-                await routinApi.get(`/routine/${param.id}`).then(result => {
+
+            const getRoutine = async (url) => {
+                await routinApi.get(`${url}/${param.id}`).then(result => {
                     dispatch(setRoutes(result.data.data));
                     dispatch(setSuperSet(result?.data?.super_set))
                     setSuccessAPI(false)
                 }).catch(err => console.log(err))
             }
-            getRoutinApi()
-        }
-    }, [])
-
+            
+    const { route } = useSWR(["https://api.ddem.ir/api/v1/routine"], getRoutine)
 
     useEffect(() => {
         if (successAPI == true) {
@@ -212,7 +212,7 @@ const CardRoutineDay = () => {
                             </>
 
                             <>
-                                {!list[0] ? <div className='mt-10'> <CircularUnderLoad /></div> :
+                                {!list[0] ? <div className='mt-10'> <Media /></div> :
 
                                     list[0]?.routine_items?.map((routes) =>
                                         <Card key={routes.id} sx={{ maxWidth: 700, marginTop: 5 }}  >

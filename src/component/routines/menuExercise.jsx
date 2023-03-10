@@ -18,23 +18,18 @@ import Skeleton from '@mui/material/Skeleton';
 const MenuExercise = ({ separator }) => {
 
     const list = useSelector(state => state.listExercise.list)
-
     const dispatch = useDispatch()
-
     const [loading, setLoading] = useState(false)
-    // api
 
     axios.defaults.headers.get['Authorization'] = `Bearer ${localStorage.getItem("token")}`
 
     const { rout } = useSWR(["https://api.ddem.ir/api/v1"], getExercise)
 
     function getExercise(url) {
-         axios.get(`${url}/exercises`).then(res => dispatch(addExericse(res.data.data))).catch(err => console.log(err))
+        axios.get(`${url}/exercises`).then(res => dispatch(addExericse(res.data.data))).catch(err => console.log(err))
         axios.get(`${url}/equipments`).then(res => dispatch(addEquipments(res.data.data))).catch(err => console.log(err))
         axios.get(`${url}/muscles`).then(res => dispatch(addMuscles(res.data.data))).catch(err => console.log(err))
     }
-
-
 
     const [openCreateList, setOpenCreateList] = useState(false)
     const handleOpenCreate = () => setOpenCreateList(true)
@@ -47,7 +42,6 @@ const MenuExercise = ({ separator }) => {
         if (separator == 1) { dispatch(setExercise({ chosen })) }
         if (separator == 2) { dispatch(updateAddExercise({ chosen })) }
         if (separator == 3) { dispatch(exerciseShow({ chosen })) }
-
     }
 
     // search 
@@ -76,13 +70,11 @@ const MenuExercise = ({ separator }) => {
             // option.equipment.title.toLowerCase().includes(filterEquipment.toLowerCase())
         );
 
-
     const filtered = filterMuscles == 0 ?
         Filtered :
         Filtered.filter((option) =>
             option.primary_muscle_id == filterMuscles
         );
-
 
     const searched = !search ?
         filtered :
@@ -97,6 +89,7 @@ const MenuExercise = ({ separator }) => {
     const successfull = () => {
         setSuccessfullcreateExercise(true)
     }
+    console.log(list.exercises.length);
     return (
         <div >
             <Box component="form" container
@@ -175,8 +168,18 @@ const MenuExercise = ({ separator }) => {
                     direction: 'rtl', width: '100%', marginTop: 5,
                     bgcolor: 'background.paper', maxHeight: 360, maxWidth: 360, position: 'relative', overflow: 'auto',
                 }}>
-                    {searched ?
-                        searched.map((option, index) =>
+                    {list.exercises.length == 0 ?
+                      <div>
+                      <div className='flex row'>
+                          <Skeleton animation="wave" variant="circular" width={40} height={40} />
+                          <Skeleton animation="wave" height={30} width="75%" style={{ marginTop: 2 }} />
+                      </div>
+                      <div className='flex row mt-8'>
+                          <Skeleton animation="wave" variant="circular" width={40} height={40} />
+                          <Skeleton animation="wave" height={30} width="75%" style={{ marginTop: 2 }} />
+                      </div>
+                  </div>:
+                        searched?.map((option, index) =>
                             <button
                                 key={index}
                                 onClick={() => handleList(option.id)}
@@ -201,18 +204,7 @@ const MenuExercise = ({ separator }) => {
                                     />
                                 </ListItem>
                             </button>
-                        ) :
-                        <>
-                            <div className='flex row'>
-                                <Skeleton animation="wave" variant="circular" width={40} height={40} />
-                                <Skeleton animation="wave" height={30} width="75%" style={{ marginTop: 2 }} />
-                            </div>
-                            <div className='flex row mt-8'>
-                                <Skeleton animation="wave" variant="circular" width={40} height={40} />
-                                <Skeleton animation="wave" height={30} width="75%" style={{ marginTop: 2 }} />
-                            </div>
-                        </>
-                    }
+                        )     }
                 </List>
             </div>
             {successfullcreateExercise ? <CustomizedSnackbars variant={'success'} text={'ورزش جدید با موفقیت ساخته شد'} /> : ''}

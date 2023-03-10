@@ -9,7 +9,7 @@ const historyRoutinSlice = createSlice({
     reducers: {
         createHistory: (state, { payload }) => {
             const item = payload[0]
-                console.log(item)
+                
             state.list = {
                 routine_id: item?.id,
                 timer: 0,

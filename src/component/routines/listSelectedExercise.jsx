@@ -24,6 +24,7 @@ const ListSelectedExercise = ({ SuperSetKey, seperator }) => {
         }}>
             <Typography> لیست ورزش های شما</Typography>
             {list?.map((option, index) =>
+             option.key !== SuperSetKey?
                 <button
                     key={index}
                     onClick={() => handleList(option.id)}
@@ -42,8 +43,8 @@ const ListSelectedExercise = ({ SuperSetKey, seperator }) => {
                             }
                         />
                     </ListItem>
-                </button>
-            )}
+                </button> :''
+            )  }
         </List>
     )
 
