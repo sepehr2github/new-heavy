@@ -30,7 +30,7 @@ import routinApi from '../../axiosApi/axiosRoutin';
 import ExampleRoutineCard from '../exampleRoutineCard';
 import ListExercisesRoutin from '../listExercisesRoutin'
 import CircularUnderLoad from '../../loading/loading';
-
+import Media from '../../loading/skeleton';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -131,21 +131,29 @@ const EditeRoutin = () => {
     }
 
     // popOver
-    const [anchorElP, setAnchorElP] = React.useState(null);
-    const openP = Boolean(anchorEl);
+    const [anchorPEl, setAnchorPEl] = React.useState(null);
+    const openPopover = Boolean(anchorEl);
     const handlePopoverOpen = (event) => {
-        setAnchorEl(event.currentTarget);
+        setAnchorPEl(event.currentTarget);
         setTimeout(() => {
 
-            setAnchorEl(null);
+            setAnchorPEl(null);
 
         }, 1000);
     };
 
+    const [anchorel, setAnchorel] = React.useState(null);
+    const openMobile = Boolean(anchorel);
+    const handlePopoverOpenMobile = (event) => {
+        setAnchorel(event.currentTarget);
+        setTimeout(() => {
+            setAnchorel(null);
+        }, 1000);
+    }
 
     console.log(super_set);
 
-    
+
     if (successfull) { return <Navigate to='../routines' /> }
     return (
         <div className='routin-style '>
@@ -158,132 +166,175 @@ const EditeRoutin = () => {
                             <MenuExercise separator={2} />
                         </div>
                     </div>
-                    <div className="exercise-right max-md:w-full mb-5 md:w-4/6 md:mr-4 md:ml-10 mt-6">
-                      <div className='mr-8 md:mr-5'>  <Button onClick={handleSendServer} variant='contained' color='success' className='input-title float-right ' > <h2 > ذخیره تغیرات</h2></Button></div>
-                        <div className='title-edite ml-32 '>   <Typography >{list[0]?.title} </Typography></div>
-                        {!list[0] ?  <div className='mt-10'> <CircularUnderLoad /></div> :
-                        list[0]?.routine_items?.map((routes) =>
-                            < >
-                                <Card className='' sx={{ maxWidth: 700, marginTop: 5 }} >
-                                    <CardHeader
-                                        avatar={
-                                            <Avatar aria-label="recipe">
-                                                <img className='imglist' src={"item?.avatar"} />
-                                            </Avatar>
-                                        }
-                                        action={
-                                            <ExampleRoutineCard Id={routes?.id} exercise_id={routes.exercise_id} getSuperSet={(superSet) => handleSuperSet(superSet)} getSuperSetRoutin={(id) => addSuperSet(id)} getReplace={(replace) => handleReplace(replace)} seperator={2} />
-                                        }
-                                        title={<>
-                                            {super_set?.map((item, index) => item?.map((setId, ind) => setId?.id == routes?.exercise_id ?
-                                                <div>
-                                                    <div
-                                                        onDoubleClick={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}
-                                                        aria-owns={open ? 'mouse-over-popover' : undefined}
-                                                        aria-haspopup="true"
-                                                        onMouseEnter={handlePopoverOpen}
-                                                        // onMouseOut={handlePopoverClose}
-                                                        className={`super_set ${index == 0 ?' bg-[#f97316]' : index == 1 ? 'bg-[#06b6d4]' : index == 2 ? 'bg-[#d946ef]' : ''}`}
-                                                    >
-                                                        {index + 1}
-                                                    </div>
-                                                    <Popover
-                                                        id="mouse-over-popover"
-                                                        sx={{
-                                                            pointerEvents: 'none',
-                                                        }}
-                                                        open={open}
-                                                        anchorEl={anchorEl}
-                                                        anchorOrigin={{
-                                                            vertical: 'bottom',
-                                                            horizontal: 'left',
-                                                        }}
-                                                        transformOrigin={{
-                                                            vertical: 'top',
-                                                            horizontal: 'left',
-                                                        }}
-                                                        // onClose={handlePopoverClose}
-                                                        disableRestoreFocus
-                                                    >
-                                                        <Typography sx={{ p: 1 }}> برای حذف دبل کلیک کنید</Typography>
-                                                    </Popover>
-                                                </div>
-                                                : '')
-                                            )}
-                                            <h1 className='title-card'>{routes.exercise.fa_title}</h1>
+                    <div className="exercise-right max-md:w-full mb-5 lg:w-4/6 md:mr-4  md:ml-10 mt-6 ">
+                        <div className='flex'>
+                            <div className='mr-8 md:mr-5 f'>  <Button onClick={handleSendServer} variant='contained' color='success' className='input-title float-right ' > <h2 > ذخیره تغیرات</h2></Button></div>
 
-                                        </>
-                                        }
-                                    />
-                                    <CardContent>
-                                        <Typography variant="body2" color="text.secondary">
-                                            <InputAddNote amount={routes.note} separator={2} Id={routes.id} />
-                                        </Typography>
-                                    </CardContent>
-                                    <div className='restTimer' xs={12}>
-                                        <InputAddRestTimer separator={2} Id={routes.id} amount={routes.rest_timer} />
-                                        <h1 className="m-3 restTimerTitle ">
-                                            <AvTimerIcon />  <Typography>: زمان استراحت  </Typography>
-                                        </h1>
-                                    </div>
+                            {/* <div className='title-edite ml-32 '>   <Typography >{list[0]?.title} </Typography></div> */}
+                        </div>
+                        <div className=''>
+                            {!list[0] ? <div className='mt-10'>  <Media /></div> :
+                                list[0]?.routine_items?.map((routes) =>
+                                    < >
+                                        <Card className='' sx={{ maxWidth: 700, marginTop: 5 }} >
+                                            <CardHeader
+                                                avatar={
+                                                    <Avatar aria-label="recipe">
+                                                        <img className='imglist' src={"item?.avatar"} />
+                                                    </Avatar>
+                                                }
+                                                action={
+                                                    <ExampleRoutineCard Id={routes?.id} exercise_id={routes.exercise_id} getSuperSet={(superSet) => handleSuperSet(superSet)} getSuperSetRoutin={(id) => addSuperSet(id)} getReplace={(replace) => handleReplace(replace)} seperator={2} />
+                                                }
+                                                title={<>
+                                                    <>
+                                                        <div className='hidden md:flex'>
+                                                            {super_set?.map((item, index) => item?.map((setId, ind) => setId?.id == routes?.exercise_id ?
+                                                                <div>
+                                                                    <div
+                                                                        onDoubleClick={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}
+                                                                        aria-owns={open ? 'mouse-over-popover' : undefined}
+                                                                        aria-haspopup="true"
+                                                                        onMouseEnter={handlePopoverOpen}
+                                                                        className={`super_set ${index == 0 ? ' bg-[#f97316]' : index == 1 ? 'bg-[#06b6d4]' : index == 2 ? 'bg-[#d946ef]' : ''}`}
+                                                                    >
+                                                                        <Typography className='text-white-500'>  {index + 1}</Typography>
+                                                                    </div>
+                                                                    <Popover
+                                                                        id="mouse-over-popover"
+                                                                        sx={{
+                                                                            pointerEvents: 'none',
+                                                                        }}
+                                                                        open={openPopover}
+                                                                        anchorEl={anchorPEl}
+                                                                        anchorOrigin={{
+                                                                            vertical: 'bottom',
+                                                                            horizontal: 'left',
+                                                                        }}
+                                                                        transformOrigin={{
+                                                                            vertical: 'top',
+                                                                            horizontal: 'left',
+                                                                        }}
+                                                                        // onClose={handlePopoverClose}
+                                                                        disableRestoreFocus
+                                                                    >
+                                                                        <Typography sx={{ p: 1 }}> برای حذف دبل کلیک کنید</Typography>
+                                                                    </Popover>
+                                                                </div>
+                                                                : '')
+                                                            )}
+                                                        </div>
+                                                        <div className='flex md:hidden'>
+                                                            {super_set?.map((item, index) => item?.map((setId, ind) => setId?.id == routes?.exercise_id ?
+                                                                <div>
+                                                                    <div
+                                                                        onTouchEndCapture={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}
+                                                                        aria-owns={open ? 'mouse-over-popover' : undefined}
+                                                                        aria-haspopup="true"
+                                                                        onTouchStart={handlePopoverOpenMobile}
+                                                                        className={`super_set ${index == 0 ? ' bg-[#f97316]' : index == 1 ? 'bg-[#06b6d4]' : index == 2 ? 'bg-[#d946ef]' : ''}`}
+                                                                    >
+                                                                        <Typography className='text-white-500'>  {index + 1}</Typography>
+                                                                    </div>
+                                                                    <Popover
+                                                                        id="mouse-over-popover"
+                                                                        sx={{
+                                                                            pointerEvents: 'none',
+                                                                        }}
+                                                                        open={openMobile}
+                                                                        anchorEl={anchorel}
+                                                                        anchorOrigin={{
+                                                                            vertical: 'bottom',
+                                                                            horizontal: 'left',
+                                                                        }}
+                                                                        transformOrigin={{
+                                                                            vertical: 'top',
+                                                                            horizontal: 'left',
+                                                                        }}
+                                                                        // onClose={handlePopoverClose}
+                                                                        disableRestoreFocus
+                                                                    >
+                                                                        <Typography sx={{ p: 1 }}> برای حذف نگه دارید</Typography>
+                                                                    </Popover>
+                                                                </div>
+                                                                : '')
+                                                            )}
+                                                        </div>
+                                                    </>
+                                                    <h1 className='title-card'>{routes.exercise.fa_title}</h1>
 
-                                    <TableContainer sx={{ width: "100%" }} component={Paper}>
-                                        <Table className='mr-0 ml-0' size="meduim" aria-label="a dense table">
-                                            <TableHead>
-                                                <TableRow className='' >
-                                                    <TableCell align="center"><Typography>ست</Typography></TableCell>
-                                                    {/* <TableCell align="center">PREVIOUS</TableCell> */}
-                                                    {routes.exercise?.type?.indices?.map((type) => <TableCell key={type.id} align="center"><Typography>{type.title}</Typography></TableCell>)}
-                                                </TableRow>
-                                            </TableHead>
+                                                </>
+                                                }
+                                            />
+                                            <CardContent>
+                                                <Typography variant="body2" color="text.secondary">
+                                                    <InputAddNote amount={routes.note} separator={2} Id={routes.id} />
+                                                </Typography>
+                                            </CardContent>
+                                            <div className='restTimer' xs={12}>
+                                                <InputAddRestTimer separator={2} Id={routes.id} amount={routes.rest_timer} />
+                                                <h1 className="m-3 restTimerTitle ">
+                                                    <AvTimerIcon />  <Typography>: زمان استراحت  </Typography>
+                                                </h1>
+                                            </div>
 
-                                            <TableBody  >
-                                                {routes?.routine_sets?.map((sets, indexSet) =>
-                                                    <TableRow className={`${sets.done == true ? 'row-done' : ''}`} >
-                                                        <TableCell align="center" > {indexSet + 1}</TableCell>
-                                                        {/* <TableCell align="center" > -</TableCell> */}
-                                                        {sets?.amount?.map((item) =>
-                                                            <TableCell align="center"  >
-                                                                {<>
-                                                                    <InputAddNumberRoutinDay Id={routes.id} separator={2} Index_Id={item[0]?.index_id}
-                                                                        SetId={sets.id} amountDay={item} IndexSet={indexSet} unit={sets.unit} />
-                                                                </>
-                                                                }
-                                                            </TableCell>
+                                            <TableContainer sx={{ width: "100%" }} component={Paper}>
+                                                <Table className='mr-0 ml-0' size="meduim" aria-label="a dense table">
+                                                    <TableHead>
+                                                        <TableRow className='' >
+                                                            <TableCell align="center"><Typography>ست</Typography></TableCell>
+                                                            {/* <TableCell align="center">PREVIOUS</TableCell> */}
+                                                            {routes.exercise?.type?.indices?.map((type) => <TableCell key={type.id} align="center"><Typography>{type.title}</Typography></TableCell>)}
+                                                        </TableRow>
+                                                    </TableHead>
+
+                                                    <TableBody  >
+                                                        {routes?.routine_sets?.map((sets, indexSet) =>
+                                                            <TableRow className={`${sets.done == true ? 'row-done' : ''}`} >
+                                                                <TableCell align="center" > {indexSet + 1}</TableCell>
+                                                                {/* <TableCell align="center" > -</TableCell> */}
+                                                                {sets?.amount?.map((item) =>
+                                                                    <TableCell align="center"  >
+                                                                        {<>
+                                                                            <InputAddNumberRoutinDay Id={routes.id} separator={2} Index_Id={item[0]?.index_id}
+                                                                                SetId={sets.id} amountDay={item} IndexSet={indexSet} unit={sets.unit} />
+                                                                        </>
+                                                                        }
+                                                                    </TableCell>
+                                                                )}
+                                                                <TableCell align="left"> <ClearIcon className=' hover:text-teal-500 hover hover:bg-gray-50' fontSize="small" color="disabled" onClick={() => handleDeleteSet({ indexSet: indexSet, id: routes.id })} /></TableCell>
+
+                                                            </TableRow>
                                                         )}
-                                                        <TableCell align="left"> <ClearIcon className=' hover:text-teal-500 hover hover:bg-gray-50' fontSize="small" color="disabled" onClick={() => handleDeleteSet({ indexSet: indexSet, id: routes.id })} /></TableCell>
+                                                    </TableBody>
 
-                                                    </TableRow>
-                                                )}
-                                            </TableBody>
+                                                </Table>
+                                            </TableContainer >
+                                            <Grid sx={{ m: 3 }} xs={12} >
+                                                <Button sx={{ width: '100%' }}
+                                                    onClick={() => handleUpdateAddSet(routes.id)} size={'large'}
+                                                    variant="contained">+ Add Set</Button>
+                                            </Grid>
+                                        </Card>
 
-                                        </Table>
-                                    </TableContainer >
-                                    <Grid sx={{ m: 3 }} xs={12} >
-                                        <Button sx={{ width: '100%' }}
-                                            onClick={() => handleUpdateAddSet(routes.id)} size={'large'}
-                                            variant="contained">+ Add Set</Button>
-                                    </Grid>
-                                </Card>
+                                        <Modal
+                                            open={openSuperSet}
+                                            onClose={handleCloseSuperSet}
+                                            aria-labelledby="modal-modal-title"
+                                            aria-describedby="modal-modal-description"
+                                        >
+                                            <Box sx={style} className='exercise-left'>
+                                                <ListExercisesRoutin SuperSetKey={superSetKey} />
+                                            </Box>
+                                        </Modal>
 
-                                <Modal
-                                    open={openSuperSet}
-                                    onClose={handleCloseSuperSet}
-                                    aria-labelledby="modal-modal-title"
-                                    aria-describedby="modal-modal-description"
-                                >
-                                    <Box sx={style} className='exercise-left'>
-                                        <ListExercisesRoutin SuperSetKey={superSetKey} />
-                                    </Box>
-                                </Modal>
-
-                            </>
-                        )}
+                                    </>
+                                )} </div>
                         <div className='mt-3'>
-                        <Hidden mdUp>
-                            <Button onClick={handleOpenModal} className="float-end  h-10 button " color="primary" variant="contained" ><Typography> اضافه کردن ورزش</Typography>
-                            </Button>
-                        </Hidden>
+                            <Hidden mdUp>
+                                <Button onClick={handleOpenModal} className="float-end  h-10 button " color="primary" variant="contained" ><Typography> اضافه کردن ورزش</Typography>
+                                </Button>
+                            </Hidden>
                         </div>
                         <Modal
                             open={openModal}

@@ -68,7 +68,7 @@ const CardRoutineDay = () => {
         }
         getRoutine()
     }, [])
-    
+
     useEffect(() => {
         if (successAPI == true) {
             routinApi.get(`/routine/history/show/${param.id}`).then(result => {
@@ -241,64 +241,80 @@ const CardRoutineDay = () => {
                                                 title={
                                                     <>
                                                         <h1 className='title-card '>{routes?.exercise.fa_title}</h1>
-                                                        <div className=''>
-                                                            {super_set?.map((item, index) => item?.map((setId, ind) => setId?.id == routes?.exercise_id ?
-                                                                <div>
-                                                                    <div
-                                                                        onDoubleClick={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}
-                                                                        // onTouchEnd={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}
-                                                                        aria-owns={open ? 'mouse-over-popover' : undefined}
-                                                                        aria-haspopup="true"
-                                                                        onMouseEnter={handlePopoverOpen}
-                                                                        onTouchStart={handlePopoverOpenMobile}
-                                                                        className={`super_set ${index == 0 ? ' bg-[#f97316]' : index == 1 ? 'bg-[#06b6d4]' : index == 2 ? 'bg-[#d946ef]' : ''}`}
-                                                                    >
-                                                                        <Typography className='text-white-500'>  {index + 1}</Typography>
+                                                        <>
+                                                            <div className='hidden md:flex'>
+                                                                {super_set?.map((item, index) => item?.map((setId, ind) => setId?.id == routes?.exercise_id ?
+                                                                    <div>
+                                                                        <div
+                                                                            onDoubleClick={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}
+                                                                            aria-owns={open ? 'mouse-over-popover' : undefined}
+                                                                            aria-haspopup="true"
+                                                                            onMouseEnter={handlePopoverOpen}
+                                                                            className={`super_set ${index == 0 ? ' bg-[#f97316]' : index == 1 ? 'bg-[#06b6d4]' : index == 2 ? 'bg-[#d946ef]' : ''}`}
+                                                                        >
+                                                                            <Typography className='text-white-500'>  {index + 1}</Typography>
+                                                                        </div>
+                                                                        <Popover
+                                                                            id="mouse-over-popover"
+                                                                            sx={{
+                                                                                pointerEvents: 'none',
+                                                                            }}
+                                                                            open={open}
+                                                                            anchorEl={anchorEl}
+                                                                            anchorOrigin={{
+                                                                                vertical: 'bottom',
+                                                                                horizontal: 'left',
+                                                                            }}
+                                                                            transformOrigin={{
+                                                                                vertical: 'top',
+                                                                                horizontal: 'left',
+                                                                            }}
+                                                                            // onClose={handlePopoverClose}
+                                                                            disableRestoreFocus
+                                                                        >
+                                                                            <Typography sx={{ p: 1 }}> برای حذف دبل کلیک کنید</Typography>
+                                                                        </Popover>
                                                                     </div>
-                                                                    <Popover
-                                                                        id="mouse-over-popover"
-                                                                        sx={{
-                                                                            pointerEvents: 'none',
-                                                                        }}
-                                                                        open={open}
-                                                                        anchorEl={anchorEl}
-                                                                        anchorOrigin={{
-                                                                            vertical: 'bottom',
-                                                                            horizontal: 'left',
-                                                                        }}
-                                                                        transformOrigin={{
-                                                                            vertical: 'top',
-                                                                            horizontal: 'left',
-                                                                        }}
-                                                                        // onClose={handlePopoverClose}
-                                                                        disableRestoreFocus
-                                                                    >
-                                                                        <Typography sx={{ p: 1 }}> برای حذف دبل کلیک کنید</Typography>
-                                                                    </Popover>
-                                                                    <Popover
-                                                                        id="mouse-over-popover"
-                                                                        sx={{
-                                                                            pointerEvents: 'none',
-                                                                        }}
-                                                                        open={openMobile}
-                                                                        anchorEl={anchorel}
-                                                                        anchorOrigin={{
-                                                                            vertical: 'bottom',
-                                                                            horizontal: 'left',
-                                                                        }}
-                                                                        transformOrigin={{
-                                                                            vertical: 'top',
-                                                                            horizontal: 'left',
-                                                                        }}
-                                                                        // onClose={handlePopoverClose}
-                                                                        disableRestoreFocus
-                                                                    >
-                                                                        <Typography sx={{ p: 1 }}> برای حذف نگه دارید</Typography>
-                                                                    </Popover>
-                                                                </div>
-                                                                : '')
-                                                            )}
-                                                        </div>
+                                                                    : '')
+                                                                )}
+                                                            </div>
+                                                            <div className='flex md:hidden'>
+                                                                {super_set?.map((item, index) => item?.map((setId, ind) => setId?.id == routes?.exercise_id ?
+                                                                    <div>
+                                                                        <div
+                                                                            onTouchEndCapture={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}
+                                                                            aria-owns={open ? 'mouse-over-popover' : undefined}
+                                                                            aria-haspopup="true"
+                                                                            onTouchStart={handlePopoverOpenMobile}
+                                                                            className={`super_set ${index == 0 ? ' bg-[#f97316]' : index == 1 ? 'bg-[#06b6d4]' : index == 2 ? 'bg-[#d946ef]' : ''}`}
+                                                                        >
+                                                                            <Typography className='text-white-500'>  {index + 1}</Typography>
+                                                                        </div>
+                                                                        <Popover
+                                                                            id="mouse-over-popover"
+                                                                            sx={{
+                                                                                pointerEvents: 'none',
+                                                                            }}
+                                                                            open={openMobile}
+                                                                            anchorEl={anchorel}
+                                                                            anchorOrigin={{
+                                                                                vertical: 'bottom',
+                                                                                horizontal: 'left',
+                                                                            }}
+                                                                            transformOrigin={{
+                                                                                vertical: 'top',
+                                                                                horizontal: 'left',
+                                                                            }}
+                                                                            // onClose={handlePopoverClose}
+                                                                            disableRestoreFocus
+                                                                        >
+                                                                            <Typography sx={{ p: 1 }}> برای حذف نگه دارید</Typography>
+                                                                        </Popover>
+                                                                    </div>
+                                                                    : '')
+                                                                )}
+                                                            </div>
+                                                        </>
 
                                                     </>
                                                 }
