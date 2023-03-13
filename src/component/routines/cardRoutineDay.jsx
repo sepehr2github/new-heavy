@@ -18,7 +18,7 @@ import CheckBox from './checkBox';
 import InputAddRestTimer from './input/inputAddRestTimer';
 import InputAddNumberRoutinDay from './input/addNumberRoutinDay';
 import InputAddNote from './input/inputAddNote';
-import ExampleRoutineCard from './exampleRoutineCard';
+import LongMenu from './exampleRoutinCard';
 import routinApi from '../axiosApi/axiosRoutin'
 import MenuExercise from './menuExercise';
 import TimerRoutin from './timerRoutin'
@@ -237,7 +237,7 @@ const CardRoutineDay = () => {
                                                         </>
                                                 }
 
-                                                action={<ExampleRoutineCard Id={routes?.id} exercise_id={routes.exercise_id} getSuperSet={(superSet) => handleSuperSet(superSet)} getSuperSetRoutin={(id) => addSuperSet(id)} getReplace={(replace) => handleReplace(replace)} seperator={2} />}
+                                                action={<LongMenu Id={routes?.id} exercise_id={routes.exercise_id} getSuperSet={(superSet) => handleSuperSet(superSet)} getSuperSetRoutin={(id) => addSuperSet(id)} getReplace={(replace) => handleReplace(replace)} seperator={2} />}
                                                 title={
                                                     <>
                                                         <h1 className='title-card '>{routes?.exercise.fa_title}</h1>

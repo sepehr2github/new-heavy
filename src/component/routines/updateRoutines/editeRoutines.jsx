@@ -2,35 +2,28 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, Navigate, useParams } from 'react-router-dom'
 import {
-    Grid, Card, CardHeader, FormControl, MenuItem, TextareaAutosize,
-    Typography, CardContent, IconButton, InputLabel, Avatar, Table,
-    TableCell, TableContainer, TableHead, TableBody, TableRow, Paper,
-    Menu, Modal, Hidden, ListItemAvatar, ListItemText, Box,
-    List, ListItem, Input, Divider, Popover, Button
+    Grid, Card, CardHeader,Typography, CardContent, IconButton, InputLabel, Avatar, Table,
+    TableCell, TableContainer, TableHead, TableBody, TableRow, Paper, Modal, Hidden, ListItemText, Box,
+    Popover, Button
 } from '@mui/material';
 
-
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AvTimerIcon from '@mui/icons-material/AvTimer';
-import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 
-import { setRoutes, updateAddExercise, addSetUpdate, setSuperSet, deleteSuperSetHistory, deleteSet } from '../../../store/slice/routinesdaySlice';
+import { setRoutes, addSetUpdate, deleteSuperSetHistory, deleteSet } from '../../../store/slice/routinesdaySlice';
 import { createUpdateRoutes, setUpdateRoutes } from '../../../store/slice/updateRoutineSlice';
 // import CheckBox from '../checkBox';
 
 import Navbar from '../../layout/navbar'
-import LabelBottomNavigation from '../../layout/buttomNavigation'
 import InputAddNumberRoutinDay from '../input/addNumberRoutinDay';
 import InputAddRestTimer from '../input/inputAddRestTimer'
 import InputAddNote from '../input/inputAddNote';
 import MenuExercise from '../menuExercise';
-import Routines from '../routines';
 import routinApi from '../../axiosApi/axiosRoutin';
-import ExampleRoutineCard from '../exampleRoutineCard';
 import ListExercisesRoutin from '../listExercisesRoutin'
-import CircularUnderLoad from '../../loading/loading';
+import LongMenu from '../exampleRoutinCard';
 import Media from '../../loading/skeleton';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -184,7 +177,7 @@ const EditeRoutin = () => {
                                                     </Avatar>
                                                 }
                                                 action={
-                                                    <ExampleRoutineCard Id={routes?.id} exercise_id={routes.exercise_id} getSuperSet={(superSet) => handleSuperSet(superSet)} getSuperSetRoutin={(id) => addSuperSet(id)} getReplace={(replace) => handleReplace(replace)} seperator={2} />
+                                                    <LongMenu Id={routes?.id} exercise_id={routes.exercise_id} getSuperSet={(superSet) => handleSuperSet(superSet)} getSuperSetRoutin={(id) => addSuperSet(id)} getReplace={(replace) => handleReplace(replace)} seperator={2} />
                                                 }
                                                 title={<>
                                                     <>

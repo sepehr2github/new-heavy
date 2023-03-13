@@ -5,16 +5,12 @@ import {
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AvTimerIcon from '@mui/icons-material/AvTimer';
-import Select from '@mui/material/Select';
-import Fit1 from "../../img/fit1.jpg";
-import Fit2 from "../../img/fit2.jpg";
-import Fit3 from "../../img/fit3.jpg";
 import Button from '@mui/material/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { addTimer, addSet } from '../../store/slice/exerciseSlice';
 import { deleteSet } from '../../store/slice/exerciseSlice'
 
-import Menu from '@mui/material/Menu';
+
 import { Table, TableCell, TableContainer, TableHead, TableBody, TableRow, Paper } from '@mui/material';
 
 import InputAddTitle from './input/inputAddTitle'
@@ -23,9 +19,7 @@ import InputAddNote from './input/inputAddNote';
 import InputAddRestTimer from './input/inputAddRestTimer'
 import ClearIcon from '@mui/icons-material/Clear';
 import MenuExercise from './menuExercise';
-import ButtunDeleteExercise from './buttunDeleteExercise'
-import DeleteIcon from '@mui/icons-material/Delete';
-import ExampleCard from './exampleCard';
+import LongMenuExercise from './exampleCard';
 import ListSelectedExercise from './listSelectedExercise';
 
 
@@ -105,7 +99,7 @@ const CardSelect = (props) => {
                                         <img className='imglist' src={"item?.avatar"} />
                                     </Avatar>
                                 }
-                                action={<ExampleCard getSuperSet={(superSet) => handleSuperSet(superSet)} getSuperSetId={(id) => addSuperSet(id)} getReplace={(replace) => handleReplace(replace)} seperator={1} Id={item.key} />}
+                                action={<LongMenuExercise getSuperSet={(superSet) => handleSuperSet(superSet)} getSuperSetId={(id) => addSuperSet(id)} getReplace={(replace) => handleReplace(replace)} seperator={1} Id={item.key} />}
                                 title={<h1 className='title-card'>{item.fa_title}</h1>}
                             />
                             {/* <button > delete</button> */}

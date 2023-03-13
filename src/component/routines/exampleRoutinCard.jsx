@@ -1,14 +1,17 @@
 import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {Typography ,Menu ,MenuItem } from '@mui/material'
-import { deleteExercise ,createSuperSet} from '../../store/slice/exerciseSlice'
-import { updateDeleteExercise, addReplace , updatecreateSuperSet} from '../../store/slice/routinesdaySlice'
+import { updateDeleteExercise, addReplace, updatecreateSuperSet } from '../../store/slice/routinesdaySlice'
+import { Typography } from '@mui/material'
 import { useDispatch } from 'react-redux'
-
+import { Fragment } from 'react'
 const ITEM_HEIGHT = 48;
 
-export default function LongMenuExercise({ Id , seperator, getReplace ,getSuperSet,getSuperSetId }) {
+export default function LongMenu({ Id, getReplace, getSuperSet, getSuperSetRoutin }) {
+
+    const dispatch = useDispatch()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -18,21 +21,18 @@ export default function LongMenuExercise({ Id , seperator, getReplace ,getSuperS
         setAnchorEl(null);
     };
 
-    const dispatch = useDispatch()
-    // const [replace , setReplace] = useState(false)
+
     const handleDelete = () => {
-        if (seperator == 1) { dispatch(deleteExercise(Id)) }
-        if (seperator == 2) { dispatch(updateDeleteExercise(Id)) }
+        dispatch(updateDeleteExercise(Id))
     }
     const handleReplace = () => {
         getReplace(true)
-        if (seperator == 1) { dispatch(deleteExercise(Id)) }
-        if (seperator == 2) { dispatch(updateDeleteExercise(Id)) }
+        dispatch(updateDeleteExercise(Id))
     }
     const handleSuperSet = () => {
-        dispatch(createSuperSet(Id))  
+        dispatch(updatecreateSuperSet(Id))
         getSuperSet(true)
-        getSuperSetId(Id)
+        getSuperSetRoutin(Id)
     }
     return (
         <div>
@@ -61,15 +61,14 @@ export default function LongMenuExercise({ Id , seperator, getReplace ,getSuperS
                     },
                 }}
             >
-
-                <MenuItem onClick={handleDelete} key={1} >
-                    <button><Typography>  حذف </Typography></button>
+                <MenuItem MenuItem>
+                    <button onClick={handleDelete}> <Typography>  حذف </Typography> </button>
                 </MenuItem>
-                <MenuItem onClick={handleReplace} key={2} >
-                    <button><Typography>  جایگزینی </Typography>  </button>
+                <MenuItem MenuItem >
+                    <button onClick={handleReplace}>   <Typography>  جایگزینی </Typography></button>
                 </MenuItem>
-                <MenuItem onClick={handleSuperSet} key={3} >
-                    <button><Typography> سوپرست </Typography></button>
+                <MenuItem MenuItem>
+                    <button onClick={handleSuperSet}><Typography> سوپرست </Typography>  </button>
                 </MenuItem>
             </Menu>
         </div>
