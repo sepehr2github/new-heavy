@@ -115,7 +115,7 @@ const EditeRoutin = () => {
     }
     const [superSetKey, setSuperSetKey] = useState()
     const addSuperSet = (id) => {
-        console.log(id)
+       
         setSuperSetKey(id)
     }
 
@@ -144,8 +144,6 @@ const EditeRoutin = () => {
         }, 1000);
     }
 
-    console.log(super_set);
-
 
     if (successfull) { return <Navigate to='../routines' /> }
     return (
@@ -163,7 +161,6 @@ const EditeRoutin = () => {
                         <div className='flex'>
                             <div className='mr-8 md:mr-5 f'>  <Button onClick={handleSendServer} variant='contained' color='success' className='input-title float-right ' > <h2 > ذخیره تغیرات</h2></Button></div>
 
-                            {/* <div className='title-edite ml-32 '>   <Typography >{list[0]?.title} </Typography></div> */}
                         </div>
                         <div className=''>
                             {!list[0] ? <div className='mt-10'>  <Media /></div> :
@@ -208,7 +205,7 @@ const EditeRoutin = () => {
                                                                             vertical: 'top',
                                                                             horizontal: 'left',
                                                                         }}
-                                                                        // onClose={handlePopoverClose}
+                                                                       
                                                                         disableRestoreFocus
                                                                     >
                                                                         <Typography sx={{ p: 1 }}> برای حذف دبل کلیک کنید</Typography>
@@ -244,7 +241,7 @@ const EditeRoutin = () => {
                                                                             vertical: 'top',
                                                                             horizontal: 'left',
                                                                         }}
-                                                                        // onClose={handlePopoverClose}
+                                                                    
                                                                         disableRestoreFocus
                                                                     >
                                                                         <Typography sx={{ p: 1 }}> برای حذف نگه دارید</Typography>

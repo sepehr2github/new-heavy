@@ -10,7 +10,6 @@ const ListExercisesRoutin = ({SuperSetKey}) => {
     const dispatch = useDispatch()
 
     const handleList = (id ) => {
-        console.log(id, SuperSetKey );
         dispatch(updateAddSuperSet({ id, SuperSetKey })) 
     }
 
@@ -26,13 +25,13 @@ const ListExercisesRoutin = ({SuperSetKey}) => {
                     key={index}
                     onClick={() => handleList(option?.exercise_id)}
                     className="list-button hover:bg-gray-100">
-                    <ListItem alignItems="flex-start  " key={index}>
+                    <ListItem   key={index}>
                         <ListItemAvatar className='mb-2'>
                             <Avatar alt="Remy Sharp" sx={{ width: 50, height: 50 }} />
                         </ListItemAvatar>
                         <ListItemText
                             className='mr-5 pt-1'
-                            alignItems="flex-start"
+                           
                             primary={
                                 <Typography>
                                     {option?.exercise.fa_title}

@@ -23,7 +23,7 @@ const routineSlice = createSlice({
 
         setRoutes:(state , {payload}) => {
             const {item} = payload ;
-        console.log(item)
+        
             state.list.exercises.push( {
                 exercise_id: item.id,
                 note: item.note,

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { addNote } from '../../../store/slice/exerciseSlice'
 import {setUpdateNote} from '../../../store/slice/routinesdaySlice'
 import {TextareaAutosize, Typography} from '@mui/material'
-const InputAddNote = ({  Id ,separator ,amount }) => {
+const InputAddNote = ({  Id ,separator ,amount='' }) => {
 
     const [note, setNote] = useState(amount)
     const dispatch = useDispatch()
@@ -19,6 +19,7 @@ const InputAddNote = ({  Id ,separator ,amount }) => {
 
 
     return (
+        <div>
         <Typography variant="body2" color="black     " style={{fontSize :' 1.2rem'}}>
             <TextareaAutosize
                 aria-label="empty textarea"
@@ -28,7 +29,7 @@ const InputAddNote = ({  Id ,separator ,amount }) => {
                 onChange={ handleInputNote}
             />
         </Typography>
-
+        </div>
 
     )
 }

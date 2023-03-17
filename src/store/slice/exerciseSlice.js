@@ -29,7 +29,7 @@ const exerciseSlice = createSlice({
                         fa_title: chosen.fa_title,
                         keywords: chosen.keywords,
                         type: chosen.type.indices,
-                        restTimer: '',
+                        restTimer: 0,
                         super_set:[],
                         sets: []
                         // {index_id:'' , amount:'' } 
@@ -40,7 +40,7 @@ const exerciseSlice = createSlice({
 
 
         deleteExercise: (state, { payload }) => {
-            console.log(payload);
+        
             state.list = state.list.filter((item) => item.key !== payload)
         },
 
@@ -96,7 +96,7 @@ const exerciseSlice = createSlice({
 
         deleteSet : (state , {payload}) => {
             const {indexSet , id} = payload
-            console.log(indexSet , id);
+            
             state.list = state.list.map((item) => {
                 return item.key === id 
                 ? { 
@@ -121,7 +121,7 @@ const exerciseSlice = createSlice({
 
 
         addSuperSet: (state,{payload}) => {
-            console.log(payload)
+             
           const {id, SuperSetKey} =payload
             state.list = state.list.map((item)=> {
                 return item.key == SuperSetKey

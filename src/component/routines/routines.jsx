@@ -34,7 +34,7 @@ function Routines() {
     const getRoutine = (url) => {
         axios.get(url)
             .then(res => dispatch(createList(res.data.data)))
-            .catch(err => console.log(err))
+            .catch(err => '')
     }
 
     const { route } = useSWR(["https://api.ddem.ir/api/v1/routine"], getRoutine)
@@ -44,7 +44,6 @@ function Routines() {
         dispatch(deleteRouteRedux({ Id }))
     }
 
-    console.log(routeTitle);
     return (
         <div className='routin-style' >
             <Navbar />

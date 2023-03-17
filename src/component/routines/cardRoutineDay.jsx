@@ -23,13 +23,10 @@ import routinApi from '../axiosApi/axiosRoutin'
 import MenuExercise from './menuExercise';
 import TimerRoutin from './timerRoutin'
 import ListExercisesRoutin from './listExercisesRoutin';
-import CircularUnderLoad from '../loading/loading';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
-import { textAlign } from '@mui/system';
 import Media from '../loading/skeleton';
-import useSWR from 'swr';
 import Skeleton from '@mui/material/Skeleton';
 
 const style = {
@@ -64,7 +61,7 @@ const CardRoutineDay = () => {
                 dispatch(setRoutes(result.data.data));
                 dispatch(setSuperSet(result?.data?.super_set))
                 setSuccessAPI(false)
-            }).catch(err => console.log(err))
+            }).catch(err => '')
         }
         getRoutine()
     }, [])
@@ -72,9 +69,9 @@ const CardRoutineDay = () => {
     useEffect(() => {
         if (successAPI == true) {
             routinApi.get(`/routine/history/show/${param.id}`).then(result => {
-                console.log(result)
+                
             })
-                .catch(err => console.log(err))
+                .catch(err => '')
         };
     }, [])
 
@@ -88,9 +85,7 @@ const CardRoutineDay = () => {
     const handlePopoverOpen = (event) => {
         setAnchorEl(event.currentTarget);
         setTimeout(() => {
-
             setAnchorEl(null);
-
         }, 1000);
     };
 
@@ -118,7 +113,6 @@ const CardRoutineDay = () => {
 
     useEffect(() => {
         dispatch(createHistory(list))
-
     }, [list])
 
     const handleStartRoutin = () => {
@@ -175,7 +169,7 @@ const CardRoutineDay = () => {
     useEffect(() => {
 
         if (history.timer > 5) {
-            routinApi.post(`/routine/history`, history).then(res => setSuccessfull(true)).catch(err => console.log(err))
+            routinApi.post(`/routine/history`, history).then(res => setSuccessfull(true)).catch(err => '')
         }
 
     }, [history])
@@ -244,7 +238,7 @@ const CardRoutineDay = () => {
                                                         <>
                                                             <div className='hidden md:flex'>
                                                                 {super_set?.map((item, index) => item?.map((setId, ind) => setId?.id == routes?.exercise_id ?
-                                                                    <div>
+                                                                    <div key={index+25}>
                                                                         <div
                                                                             onDoubleClick={() => handleDeleteSuperSetHistory({ id: item[0].id, IndexSuper: index })}
                                                                             aria-owns={open ? 'mouse-over-popover' : undefined}
@@ -320,9 +314,9 @@ const CardRoutineDay = () => {
                                                 }
                                             />
                                             <CardContent className='mb-0'>
-                                                <Typography variant="body2" color="text.secondary">
+                                                <div variant="body2" color="text.secondary">
                                                     <InputAddNote Id={routes.id} amount={routes?.note} />
-                                                </Typography>
+                                                </div>
                                             </CardContent>
                                             <div className='restTimer mt-0' xs={12}>
                                                 <InputAddRestTimer separator={2} Id={routes?.id} amount={routes?.rest_timer} />
@@ -331,24 +325,24 @@ const CardRoutineDay = () => {
                                                 </h1>
                                             </div>
                                             <TableContainer sx={{ width: "100%" }} component={Paper}>
-                                                <Table className='mr-0 ml-0' size="meduim" aria-label="a dense table">
-                                                    <TableHead>
-                                                        <TableRow className='' >
-                                                            <TableCell className='' align="right" ><CheckIcon className='mr-2' /></TableCell>
-                                                            <TableCell className='' align="right"><Typography>ست</Typography></TableCell>
-                                                            {routes.exercise?.type.indices?.map((type, ind) => <TableCell className='' key={ind} align="center"><Typography>{type.title}</Typography></TableCell>)}
+                                                <Table key={100} className='mr-0 ml-0' size="meduim" aria-label="a dense table">
+                                                    <TableHead key={101}>
+                                                        <TableRow key={102} className='' >
+                                                            <TableCell key={103} className='' align="right" ><CheckIcon className='mr-2' /></TableCell>
+                                                            <TableCell key={104} className='' align="right"><Typography>ست</Typography></TableCell>
+                                                            {routes.exercise?.type.indices?.map((type, ind) => <TableCell className='' key={ind+600} align="center"><Typography>{type.title}</Typography></TableCell>)}
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody  >
                                                         {routes?.routine_sets?.map((sets, indexSet) =>
                                                             <>
-                                                                <TableRow key={indexSet} className={`${sets?.done == true ? 'row-done' : ''} `} >
-                                                                    <TableCell className='bg-emerald-50  w-4 md:w-10' align="right"> {start == true ? <CheckBox className='mr-2' IdSet={indexSet} IdEx={routes.id} amount={routes?.rest_timer} /> : ''} </TableCell>
-                                                                    <TableCell className='bg-emerald-50 w-4 md:w-10' align="right" > {indexSet + 1}</TableCell>
+                                                                <TableRow key={indexSet+200} className={`${sets?.done == true ? 'row-done' : ''} `} >
+                                                                    <TableCell key={indexSet+300} className='bg-emerald-50  w-4 md:w-10' align="right"> {start == true ? <CheckBox className='mr-2' IdSet={indexSet} IdEx={routes.id} amount={routes?.rest_timer} /> : ''} </TableCell>
+                                                                    <TableCell key={indexSet+400} className='bg-emerald-50 w-4 md:w-10' align="right" > {indexSet + 1}</TableCell>
                                                                     {/* <TableCell align="center" > -</TableCell> */}
                                                                     {sets?.amount?.map((item, index) =>
-                                                                        // console.log(item ,  item[0].index_id)
-                                                                        <TableCell className='' align="center" key={indexSet} >
+                                                                        
+                                                                        <TableCell key={index+700} className='' align="center"  >
                                                                             {
                                                                                 <InputAddNumberRoutinDay key={index} IndexSet={indexSet} Id={routes.id} separator={2} Index_Id={item[0]?.index_id}
                                                                                     SetId={sets.id} amountDay={item} unit={sets.unit} />

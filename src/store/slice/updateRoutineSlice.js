@@ -13,7 +13,6 @@ const updateRoutineSlice = createSlice({
     reducers: {
 
         createUpdateRoutes: (state, { payload }) => {
-            console.log(payload);
             state.list = {
                 title: payload,
                 exercises: []
@@ -22,7 +21,6 @@ const updateRoutineSlice = createSlice({
 
         setUpdateRoutes: (state, { payload }) => {
             const { newList } = payload
-            console.log(newList)
             newList.routine_items.map((item)=>
 
             state.list.exercises.push({

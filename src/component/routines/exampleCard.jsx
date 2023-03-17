@@ -19,7 +19,6 @@ export default function LongMenuExercise({ Id , seperator, getReplace ,getSuperS
     };
 
     const dispatch = useDispatch()
-    // const [replace , setReplace] = useState(false)
     const handleDelete = () => {
         if (seperator == 1) { dispatch(deleteExercise(Id)) }
         if (seperator == 2) { dispatch(updateDeleteExercise(Id)) }

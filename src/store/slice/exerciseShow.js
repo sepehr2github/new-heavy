@@ -7,7 +7,6 @@ const exerciseShowSlice = createSlice({
     },
     reducers: {
         exerciseShow: (state, { payload }) => {
-            console.log(payload);
             state.list=payload.chosen
         },
 

@@ -9,13 +9,9 @@ const ListSelectedExercise = ({ SuperSetKey, seperator }) => {
     const list = useSelector(state => state.exercise.list)
     const dispatch = useDispatch()
 
-    console.log(SuperSetKey)
-
-
     const handleList = (id) => {
          dispatch(addSuperSet({ id, SuperSetKey })) 
     }
-
 
     return (
         <List sx={{

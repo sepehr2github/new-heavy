@@ -26,9 +26,9 @@ const MenuExercise = ({ separator }) => {
     const { rout } = useSWR(["https://api.ddem.ir/api/v1"], getExercise)
 
     function getExercise(url) {
-        axios.get(`${url}/exercises`).then(res => dispatch(addExericse(res.data.data))).catch(err => console.log(err))
-        axios.get(`${url}/equipments`).then(res => dispatch(addEquipments(res.data.data))).catch(err => console.log(err))
-        axios.get(`${url}/muscles`).then(res => dispatch(addMuscles(res.data.data))).catch(err => console.log(err))
+        axios.get(`${url}/exercises`).then(res => dispatch(addExericse(res.data.data))).catch(err => '')
+        axios.get(`${url}/equipments`).then(res => dispatch(addEquipments(res.data.data))).catch(err => '')
+        axios.get(`${url}/muscles`).then(res => dispatch(addMuscles(res.data.data))).catch(err => '')
     }
 
     const [openCreateList, setOpenCreateList] = useState(false)
@@ -89,10 +89,10 @@ const MenuExercise = ({ separator }) => {
     const successfull = () => {
         setSuccessfullcreateExercise(true)
     }
-    console.log(list.exercises.length);
+    
     return (
         <div >
-            <Box component="form" container
+            <Box component="form" 
                 sx={{ '& .MuiTextField-root': { marginTop: '.5rem ', width: '100%' }, }}
                 noValidate autoComplete="off">
                 {/* <Typography>فیلتر :</Typography> */}
@@ -107,9 +107,11 @@ const MenuExercise = ({ separator }) => {
                                border border-solid border-gray-300 rounded transition ease-in-out m-0
                                 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                 aria-label="Default select example">
-                                <option key='0' value='0'> <Typography className="fv">لوازم ورزشی</Typography></option>
+                                
+                                     <option className="fv">لوازم ورزشی</option>
+                                 
                                 {list.equipments?.map((item, index) => <option className="fv" key={item.id} value={item.id}>
-                                    <h1>{item.title}</h1></option>)}
+                                    {item.title}</option>)}
                             </select>
                         </Typography>
                     </div>
@@ -125,8 +127,8 @@ const MenuExercise = ({ separator }) => {
                                            border-gray-300  rounded transition ease-in-out m-0 focus:text-gray-700
                                            focus:bg-white focus:border-blue-600 focus:outline-none"
                                 aria-label="Default select example">
-                                <option key='0' value='0'> <h1 >عضلات</h1></option>
-                                {list.musclses?.map((item) => <option key={item.id} value={item.id}><h1>{item.title}</h1></option>)}
+                                <option >عضلات</option>
+                                {list.musclses?.map((item) => <option key={item.id} value={item.id}>{item.title}</option>)}
                             </select>
                         </Typography>
                     </div>
@@ -147,7 +149,7 @@ const MenuExercise = ({ separator }) => {
                 <Paper
                     component="form"
                     sx={{
-                        p: '2px 4px', display: 'flex', alignitems: 'center',
+                        p: '2px 4px', display: 'flex',
                         backgroundColor: 'rgb(240, 240, 240);'
                     }}
                 >
@@ -184,13 +186,13 @@ const MenuExercise = ({ separator }) => {
                                 key={index}
                                 onClick={() => handleList(option.id)}
                                 className="list-button hover:bg-gray-100">
-                                <ListItem alignItems="flex-start  " key={index}>
+                                <ListItem  key={index}>
                                     <ListItemAvatar className='mb-2'>
                                         <Avatar alt="Remy Sharp" sx={{ width: 50, height: 50 }} src={fit2} />
                                     </ListItemAvatar>
                                     <ListItemText
                                         className='mr-5 pt-1'
-                                        alignItems="flex-start"
+                                        
                                         primary={
                                             <Typography>
                                                 {option.fa_title}

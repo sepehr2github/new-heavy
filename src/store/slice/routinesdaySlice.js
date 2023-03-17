@@ -37,7 +37,7 @@ const routinesdaySlice = createSlice({
 
         updateAddExercise: (state, { payload }) => {
             const { chosen } = payload
-            console.log(chosen);
+            
             state.list.map((item) => item.routine_items.push({
                 id: Math.floor(Math.random() * 1000),
                 exercise_id: chosen.id,
@@ -203,7 +203,7 @@ const routinesdaySlice = createSlice({
             updateAddSuperSet: (state, { payload }) => {
 
                 const {id, SuperSetKey } = payload
-                console.log(id, SuperSetKey )
+               
                 state.list = state.list.map((items) => {
                     return {
                         ...items,

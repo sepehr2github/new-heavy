@@ -9,10 +9,7 @@ import Button from '@mui/material/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { addTimer, addSet } from '../../store/slice/exerciseSlice';
 import { deleteSet } from '../../store/slice/exerciseSlice'
-
-
 import { Table, TableCell, TableContainer, TableHead, TableBody, TableRow, Paper } from '@mui/material';
-
 import InputAddTitle from './input/inputAddTitle'
 import InputAddNumber from './input/inputAddNumber';
 import InputAddNote from './input/inputAddNote';
@@ -22,11 +19,6 @@ import MenuExercise from './menuExercise';
 import LongMenuExercise from './exampleCard';
 import ListSelectedExercise from './listSelectedExercise';
 
-
-const options = [
-    'delete',
-
-];
 
 const style = {
     position: 'absolute',
@@ -40,9 +32,6 @@ const style = {
     p: 4,
     marginTop: 7
 };
-
-
-const ITEM_HEIGHT = 48;
 
 const CardSelect = (props) => {
 
@@ -64,7 +53,6 @@ const CardSelect = (props) => {
 
     const handleDeleteSet = ({ indexSet, id }) => {
         dispatch(deleteSet({ indexSet, id }))
-
     }
 
     const handleReplace = (replace) => {
@@ -76,13 +64,11 @@ const CardSelect = (props) => {
     const handleSuperSet = (superSet) => {
         if (superSet) return (
             handleOpenSuperSet()
-
         )
     }
 
     const [superSetKey, setSuperSetKey] = useState()
     const addSuperSet = (id) => {
-        console.log(id);
         setSuperSetKey(id)
     }
 
@@ -91,7 +77,7 @@ const CardSelect = (props) => {
             <InputAddTitle separator={1} />
             {list?.map((item, ind) =>
                 <>
-                    <div className="shadow-xl p-1">
+                    <div key={item.key} className="shadow-xl p-1">
                         <Card key={item.key} sx={{ maxWidth: 700, marginTop: 5 }} >
                             <CardHeader className='mt-4 mx-3'
                                 avatar={
@@ -112,25 +98,25 @@ const CardSelect = (props) => {
                                     <AvTimerIcon />  <Typography> زمان استراحت</Typography>
                                 </h1>
                             </div>
-                            <TableContainer sx={{ width: "100%" }} component={Card}>
-                                <Table className='mr-0 ml-0' size="meduim" aria-label="a dense table">
-                                    <TableHead>
-                                        <TableRow className='' >
-                                            <TableCell className="input-title" align="center"><h2>ست</h2> </TableCell>
-                                            {item.type.map((type) => <TableCell className="input-title" align="center"><h2>{type.title}</h2></TableCell>)}
+                            <TableContainer key={100} sx={{ width: "100%" }} component={Card}>
+                                <Table key={110} className='mr-0 ml-0' size="meduim" aria-label="a dense table">
+                                    <TableHead key={111}>
+                                        <TableRow key={211} className='' >
+                                            <TableCell className="input-title" key={311} align="center"><h2>ست</h2> </TableCell>
+                                            {item.type.map((type,index) => <TableCell className="input-title" key={index+100} align="center"><h2>{type.title}</h2></TableCell>)}
                                         </TableRow>
                                     </TableHead>
                                     {item?.sets?.map((set, indexSet) =>
                                         <TableBody key={set?.key} >
-                                            <TableRow >
-                                                <TableCell align="center" > {indexSet + 1}</TableCell>
+                                            <TableRow key={indexSet+200}>
+                                                <TableCell key={indexSet+1} align="center" > {indexSet + 1}</TableCell>
                                                 {item.type.map((type, Ind) =>
-                                                    <TableCell align="center">
+                                                    <TableCell key={Ind+300} align="center">
 
                                                         <InputAddNumber key={Ind} Id={item?.key} separator={1} Ind={Ind} IndexSet={indexSet} Index_Id={type.index_id} unit={set.unit} amount={set.map((inp) => [{ index_id: inp[0]?.index_id, amount: inp[0].amount }])} />
                                                     </TableCell>
                                                 )}
-                                                <TableCell align="left"> <ClearIcon className=' hover:text-teal-500 hover hover:bg-gray-50' fontSize="small" color="disabled" onClick={() => handleDeleteSet({ indexSet: indexSet, id: item.key })} /></TableCell>
+                                                <TableCell key={333} align="left"> <ClearIcon className=' hover:text-teal-500 hover hover:bg-gray-50' fontSize="small" color="disabled" onClick={() => handleDeleteSet({ indexSet: indexSet, id: item.key })} /></TableCell>
                                             </TableRow>
                                         </TableBody>
                                     )}

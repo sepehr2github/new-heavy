@@ -35,19 +35,11 @@ function Newroutin() {
     const title = useSelector(state => state.exercise?.title)
     const setList = useSelector(state => state.routine.list)
     const dispatch = useDispatch()
-
-
-
-    const first = useContext(list)
-
-    console.log(first)
     // save 
 
     useEffect(() => {
         dispatch(createRoutes({ title }))
     }, [title])
-
-
 
     const [server, setServer] = useState(false)
     const [Successfull, setSuccessfull] = useState(false)
@@ -57,12 +49,10 @@ function Newroutin() {
         setServer(true)
     }
 
-
-
     useEffect(() => {
         if (server == true) {
             if (title) {
-                routinApi.post(`/routine`, setList).then(res => console.log(res)).catch(err => console.log(err))
+                routinApi.post(`/routine`, setList).then(res => '').catch(err =>'')
                 setSuccessfull(true)
             } else {
                 setServer(false)

@@ -32,19 +32,19 @@ const Login = () => {
     })
     function handleSubmit(values) {
         routinApi.post(`/pass-login`, values)
-        .then(result => {
-            (!result.data.token) ?
-                
-                console.log(result)
-                :
-                localStorage.setItem("token", result.data.token)
-            localStorage.setItem("name", result.data.user.name)
-            setError(false)
-            setLogin(true)
-            console.log(result);
-        })
-        .catch(err =>
-           (err.request.status == 404 || 422)? setError(true) : '')
+            .then(result => {
+                (!result.data.token) ?
+
+                    console.log()
+                    :
+                    localStorage.setItem("token", result.data.token)
+                localStorage.setItem("name", result.data.user.name)
+                setError(false)
+                setLogin(true)
+
+            })
+            .catch(err =>
+                (err.request.status == 404 || 422) ? setError(true) : '')
     }
 
     if (login) {
@@ -53,7 +53,7 @@ const Login = () => {
 
     return (
         <>
-            {error==true ? <>
+            {error == true ? <>
                 <CustomizedSnackbars variant={2} text={'شماره همراه یا رمز عبور اشتباه است'} />
                 {setTimeout(() => {
                     setError(false)
@@ -103,6 +103,7 @@ const Login = () => {
                                     <div className='mt-2'> <Link to='/register '> قبلا ثبت نام نکرده اید</Link></div>
                                     <div>
                                         <button
+                                            type="submit"
                                             onClick={handleSubmit}
                                             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                         >

@@ -37,15 +37,15 @@ const CreateExercise = ({ handleCloseCreate, successfull }) => {
     }, [])
 
     async function getTypes() {
-        routinApi.get(`/types`).then(result => { setTypes(result.data.data) }).catch(err => console.log(err))
+        routinApi.get(`/types`).then(result => { setTypes(result.data.data) }).catch(err => '')
     }
 
     async function getEquipments() {
-        routinApi.get(`/equipments`).then(result => { setEquipments(result.data.data) }).catch(err => console.log(err))
+        routinApi.get(`/equipments`).then(result => { setEquipments(result.data.data) }).catch(err =>'')
     }
 
     async function getMuscles() {
-        routinApi.get(`/muscles`).then(result => { setMuscles(result.data.data) }).catch(err => console.log(err))
+        routinApi.get(`/muscles`).then(result => { setMuscles(result.data.data) }).catch(err =>'')
     }
 
     const formik = useFormik({
@@ -69,7 +69,6 @@ const CreateExercise = ({ handleCloseCreate, successfull }) => {
                     setText(err.response.data.message)
                     setCondition(2)
                 })
-            //  handleCloseCreate(false)
         }
     },
     );

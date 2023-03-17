@@ -5,11 +5,6 @@ import { useDispatch } from 'react-redux';
 import { setDone } from '../../store/slice/routinesdaySlice'
 import Slide from '@mui/material/Slide';
 import UrgeWithPleasureComponent from './progressBar'
-import { Typography } from '@mui/material';
-
-
-
-
 
 const CheckBox = ({ IdSet, IdEx, amount }) => {
 
@@ -25,8 +20,6 @@ const CheckBox = ({ IdSet, IdEx, amount }) => {
   useEffect(() => {
     dispatch(setDone({ IdSet, IdEx, check }))
   }, [check])
-
-
 
   return (
     <div >
